@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class RouterConfig extends Component {
+export default class A extends Component {
     render() {
         return (
             <div>
