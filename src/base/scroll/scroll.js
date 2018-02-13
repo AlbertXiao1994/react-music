@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import BScroll from 'better-scroll'
 
 export default class Scroll extends Component {
+    componentWillMount = () => {
+        this._initScroll();
+    }
     _initScroll= () => {
         if (!this.wrapper) {
           return
