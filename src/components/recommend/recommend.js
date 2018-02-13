@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import Slider from 'base/slider/slider';
 import './recommend.less';
+import { getRecommend } from 'api/recommend';
+import { ERR_OK } from 'api/config';
 
 export default class Recommend extends Component {
   state = {
     recommends: []
+  };
+  _getRecommend() {
+    getRecommend().then((res) => {
+      if (res.code === ERR_OK) {
+        this.setState({recommends: res.data.slider});
+      }
+    }, (err) => {
+      console.log(err)
+    })
   };
   render() {
     const { recommends } = this.state;
