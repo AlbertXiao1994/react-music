@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'base/slider/slider';
+import './recommend.less';
 
 export default class Recommend extends Component {
   state = {
@@ -15,7 +16,7 @@ export default class Recommend extends Component {
       </div>
     );
     return (
-      <div>
+      <div className="recommend">
         <div className="recommend-content">
           <div>
             <div className="slider-wrapper">
@@ -24,7 +25,7 @@ export default class Recommend extends Component {
               </Slider>
             </div>
             <div className="recommend-list">
-              <h1 class="list-title">热门歌单推荐</h1>
+              <h1 className="list-title">热门歌单推荐</h1>
             </div>
           </div>
         </div>
