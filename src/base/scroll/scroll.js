@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BScroll from 'better-scroll'
+import BScroll from 'better-scroll';
 
 export default class Scroll extends Component {
     componentWillMount = () => {
