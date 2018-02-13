@@ -8,6 +8,9 @@ export default class Recommend extends Component {
   state = {
     recommends: []
   };
+  componentWillMount() {
+    this._getRecommend()
+  }
   _getRecommend() {
     getRecommend().then((res) => {
       if (res.code === ERR_OK) {
@@ -19,8 +22,8 @@ export default class Recommend extends Component {
   };
   render() {
     const { recommends } = this.state;
-    const recommendItems = recommends.map((item) => 
-      <div>
+    const recommendItems = recommends.map((item, index) => 
+      <div key={index}>
         <a href={item.linkUrl}>
           <img src={item.picUrl} className="needsClick" alt="" />
         </a>

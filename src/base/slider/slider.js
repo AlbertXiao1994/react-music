@@ -9,11 +9,15 @@ export default class Slider extends Component {
     render() {
         const { dots, currentPageIndex } = this.state;
         const dotItems = dots.map((item, index) =>
-            <span className={currentPageIndex===index?'dot active':'dot'}></span>
+            <span
+                className={currentPageIndex===index?'dot active':'dot'}
+                key={index}>
+            </span>
         );
         return (
             <div>
                 <div className="slider-group">
+                    {this.props.children}
                 </div>
                 <div className="dots">
                     {dotItems}
