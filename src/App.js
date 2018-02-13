@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Recommend from 'components/recommend/recommend';
 import Singer from 'components/singer/singer';
 import Rank from 'components/rank/rank';
@@ -15,7 +15,9 @@ class App extends Component {
           <MHeader />
           <Tab />
           <Switch>
-            <Route path="/" exact component={Recommend} />
+            <Route path="/" exact render={() => (
+              <Redirect to="/recommend" />
+            )} />
             <Route path="/recommend" component={Recommend} />
             <Route path="/singer" component={Singer} />
             <Route path="/rank" component={Rank} />
