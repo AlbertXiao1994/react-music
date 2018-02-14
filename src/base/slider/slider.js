@@ -27,7 +27,7 @@ export default class Slider extends Component {
           this._setSliderWidth(true)
           this.BSlider.refresh()
         })
-      }
+    }
     _setSliderWidth = (isResize) => {
         this.children = this.sliderGroup.children
         console.log(this.children)

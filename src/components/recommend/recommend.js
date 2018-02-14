@@ -20,23 +20,29 @@ export default class Recommend extends Component {
     }, (err) => {
       console.log(err)
     })
-  };
+  }
+  loadImg = () => {
+    if (!this.checkLoad) {
+      this.scroll.refresh()
+      this.checkLoad = true
+    }
+  }
   render() {
-    const { recommends } = this.state;
-    const recommendItems = recommends.map((item, index) => 
-      <div key={index}>
-        <a href={item.linkUrl}>
-          <img src={item.picUrl} className="needsClick" alt="" />
-        </a>
-      </div>
-    );
     return (
       <div className="recommend">
         <Scroll className="recommend-content" ref={(scroll) => {this.scroll = scroll}}>
           <div>
             <div className="slider-wrapper">
-              <Slider>
-                {recommendItems}
+              <Slider click={false}>
+                {
+                  this.state.recommends.map((item, index) => 
+                    <div key={index}>
+                      <a href={item.linkUrl}>
+                        <img src={item.picUrl} className="needsClick" onLoad={this.loadImg} alt="" />
+                      </a>
+                    </div>
+                  )
+                }
               </Slider>
             </div>
             <div className="recommend-list">

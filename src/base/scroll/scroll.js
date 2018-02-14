@@ -6,7 +6,7 @@ export default class Scroll extends Component {
     componentWillMount = () => {
         this._initScroll();
     }
-    _initScroll= () => {
+    _initScroll = () => {
         if (!this.wrapper) {
           return
         }
@@ -14,6 +14,9 @@ export default class Scroll extends Component {
           probeType: this.props.probeType,
           click: this.props.click
         })
+    }
+    refresh = () => {
+        this.scroll && this.scroll.refresh()
     }
     render() {
         return (
