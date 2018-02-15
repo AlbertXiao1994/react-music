@@ -6,6 +6,13 @@ export default class Scroll extends Component {
     componentDidMount = () => {
         this._initScroll();
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            setTimeout(() => {
+                this.refresh()
+              }, this.props.refreshDelay)
+        }
+    }
     _initScroll = () => {
         if (!this.wrapper) {
           return
@@ -30,11 +37,19 @@ export default class Scroll extends Component {
 Scroll.propTypes = {
     probeType: PropTypes.number,
     click: PropTypes.bool,
-    data: PropTypes.array
+    data: PropTypes.array,
+    refreshDelay: PropTypes.number,
+    listenScroll: PropTypes.bool,
+    pullup: PropTypes.bool,
+    beforeScroll: PropTypes.bool
 };
 
 Scroll.defaultProps = {
     probeType: 1,
     click: true,
-    data: []
+    data: [],
+    refreshDelay: 20,
+    listenScroll: false,
+    pullup: false,
+    beforeScroll: false
 }
