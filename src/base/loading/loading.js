@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './loading.less';
 
 export default class Loading extends Component {
@@ -10,4 +11,12 @@ export default class Loading extends Component {
             </div>
         );
     }
+}
+
+Loading.protoTypes = {
+    title: PropTypes.string
+};
+
+Loading.defaultProps = {
+    title: "正在载入..."
 }
