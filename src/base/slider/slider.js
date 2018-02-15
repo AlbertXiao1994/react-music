@@ -13,36 +13,34 @@ export default class Slider extends Component {
         setTimeout(() => {
             this._initSlider()
           }, 20)
-    
-          window.addEventListener('resize', () => {
-            if (!this.BSlider) {
-              return
-            }
-            this._setSliderWidth(true)
-            this.BSlider.refresh()
-          })
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.children.length !== this.props.children.length && nextProps.children.length > 0)
-        setTimeout(() => {
-          this._setSliderWidth()
-          this._initDots()
+        if (nextProps.children.length !== this.props.children.length && nextProps.children.length > 0) {
+            setTimeout(() => {
+                this._setSliderWidth()
+                this._initDots()
   
-          if (this.props.autoPlay) {
-            this._play()
-          }
-        }, 20)
+                if (this.props.autoPlay) {
+                this._play()
+                }
+            }, 20)
+            window.addEventListener('resize', () => {
+                if (!this.BSlider) {
+                  return
+                }
+                this._setSliderWidth(true)
+                this.BSlider.refresh()
+            })
+        }
     }
     _setSliderWidth = (isResize) => {
         this.children = this.sliderGroup.children
-        console.log(this.children)
         
         let width = 0
         let sliderWidth = this.slider.clientWidth
         for (let i = 0, len = this.children.length; i < len; i++) {
             let child = this.children[i]
             addClass(child, 'slider-item')
-            console.log(len)
 
             child.style.width = sliderWidth + 'px'
             width += sliderWidth
@@ -75,7 +73,11 @@ export default class Slider extends Component {
         })
     }
     _initDots = () => {
-        this.setState({dots: new Array(this.children.length)})
+        let arr = new Array(this.children.length);
+        for (let i = 0,len = arr.length; i < len; i++) {
+            arr[i] = 0
+        }
+        this.setState({dots: arr})
     }
     _play = () => {
         this.timer = setTimeout(() => {
