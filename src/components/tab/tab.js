@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import './tab.less';
 
-export default class MHeader extends Component {
+export default class Tab extends Component {
     render() {
         return (
             <div className="tab">

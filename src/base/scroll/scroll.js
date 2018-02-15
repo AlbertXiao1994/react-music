@@ -9,6 +9,7 @@ export default class Scroll extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             setTimeout(() => {
+                this._initScroll();
                 this.refresh()
               }, this.props.refreshDelay)
         }
@@ -27,7 +28,7 @@ export default class Scroll extends Component {
     }
     render() {
         return (
-            <div ref={(wrapper) => {this.warpper = wrapper}}>
+            <div className={this.props.className} ref={(wrapper) => {this.wrapper = wrapper}}>
                 {this.props.children}
             </div>
         );

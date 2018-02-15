@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'base/slider/slider';
-// import Scroll from 'base/scroll/scroll';
+import Scroll from 'base/scroll/scroll';
 import './recommend.less';
 import { getRecommend, getDiscList } from 'api/recommend';
 import { ERR_OK } from 'api/config';
@@ -41,7 +41,11 @@ export default class Recommend extends Component {
   render() {
     return (
       <div className="recommend">
-        <div className="recommend-content" ref={(scroll) => {this.scroll = scroll}}>
+        <Scroll
+          className="recommend-content"
+          ref={(scroll) => {this.scroll = scroll}}
+          data={this.state.discList}
+        >
           <div>
             <div className="slider-wrapper">
               <Slider>
@@ -75,7 +79,7 @@ export default class Recommend extends Component {
               </ul>
             </div>
           </div>
-        </div>
+        </Scroll>
       </div>
     );
   }
