@@ -61,13 +61,13 @@ export default class Recommend extends Component {
               <ul>
                   {
                     this.state.discList.map((item, index) => 
-                      <li class="item" v-for="item in discList">
-                        <div class="icon">
+                      <li className="item" key={index}>
+                        <div className="icon">
                           <img width="60" height="60" src={item.imgurl} alt={index} />
                         </div>
-                        <div class="text">
-                          <h2 class="title">{item.dissname}</h2>
-                          <p class="creator">{item.creator.name}</p>
+                        <div className="text">
+                          <h2 className="title">{item.dissname}</h2>
+                          <p className="creator">{item.creator.name}</p>
                         </div>
                       </li>
                     )
