@@ -4,6 +4,7 @@ import Scroll from 'base/scroll/scroll';
 import './recommend.less';
 import { getRecommend, getDiscList } from 'api/recommend';
 import { ERR_OK } from 'api/config';
+import Loading from 'base/loading/loading';
 
 export default class Recommend extends Component {
   state = {
@@ -78,6 +79,13 @@ export default class Recommend extends Component {
                   }
               </ul>
             </div>
+          </div>
+          <div className="loading-container">
+              {
+                  !this.state.discList.length
+                  ? <Loading />
+                  : ''
+              }
           </div>
         </Scroll>
       </div>
