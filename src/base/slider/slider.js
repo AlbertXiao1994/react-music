@@ -9,16 +9,12 @@ export default class Slider extends Component {
         dots: [],
         currentPageIndex: 0
     };
-    componentDidMount() {
-        setTimeout(() => {
-            this._initSlider()
-          }, 20)
-    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.children.length !== this.props.children.length && nextProps.children.length > 0) {
             setTimeout(() => {
                 this._setSliderWidth()
                 this._initDots()
+                this._initSlider()
   
                 if (this.props.autoPlay) {
                 this._play()
@@ -32,6 +28,9 @@ export default class Slider extends Component {
                 this.BSlider.refresh()
             })
         }
+    }
+    componentWillUnMount() {
+        clearTimeout(this.timer)
     }
     _setSliderWidth = (isResize) => {
         this.children = this.sliderGroup.children
@@ -55,8 +54,9 @@ export default class Slider extends Component {
           scrollX: true,
           scrollY: false,
           momentum: false,
+          click: this.props.click,
           snap: {
-            loop: this.loop,
+            loop: this.props.loop,
             threshold: 0.3,
             speed: 400
           }
@@ -115,7 +115,7 @@ Slider.propTypes = {
 
 Slider.defaultProps = {
     loop: true,
-    autoPlay: false,
+    autoPlay: true,
     interval: 4000,
     click: true
 }

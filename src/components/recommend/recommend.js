@@ -33,7 +33,7 @@ export default class Recommend extends Component {
         <div className="recommend-content" ref={(scroll) => {this.scroll = scroll}}>
           <div>
             <div className="slider-wrapper">
-              <Slider click={false}>
+              <Slider>
                 {
                   this.state.recommends.map((item, index) => 
                     <div key={index}>
