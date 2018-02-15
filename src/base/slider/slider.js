@@ -11,22 +11,27 @@ export default class Slider extends Component {
     };
     componentDidMount() {
         setTimeout(() => {
+            this._initSlider()
+          }, 20)
+    
+          window.addEventListener('resize', () => {
+            if (!this.BSlider) {
+              return
+            }
+            this._setSliderWidth(true)
+            this.BSlider.refresh()
+          })
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.children.length !== this.props.children.length && nextProps.children.length > 0)
+        setTimeout(() => {
           this._setSliderWidth()
           this._initDots()
-          this._initSlider()
   
-          if (this.autoPlay) {
+          if (this.props.autoPlay) {
             this._play()
           }
         }, 20)
-  
-        window.addEventListener('resize', () => {
-          if (!this.BSlider) {
-            return
-          }
-          this._setSliderWidth(true)
-          this.BSlider.refresh()
-        })
     }
     _setSliderWidth = (isResize) => {
         this.children = this.sliderGroup.children
@@ -35,14 +40,15 @@ export default class Slider extends Component {
         let width = 0
         let sliderWidth = this.slider.clientWidth
         for (let i = 0, len = this.children.length; i < len; i++) {
-          let child = this.children[i]
-          addClass(child, 'slider-item')
+            let child = this.children[i]
+            addClass(child, 'slider-item')
+            console.log(len)
 
-          child.style.width = sliderWidth + 'px'
-          width += sliderWidth
+            child.style.width = sliderWidth + 'px'
+            width += sliderWidth
         }
-        if (this.loop && !isResize) {
-          width += 2 * sliderWidth
+        if (this.props.loop && !isResize) {
+            width += 2 * sliderWidth
         }
         this.sliderGroup.style.width = width + 'px'
     }
@@ -60,37 +66,38 @@ export default class Slider extends Component {
 
         this.BSlider.on('scrollEnd', () => {
           let pageIndex = this.BSlider.getCurrentPage().pageX
-          this.currentPageIndex = pageIndex
+          this.setState({currentPageIndex: pageIndex})
 
-          if (this.autoPlay) {
+          if (this.props.autoPlay) {
             clearTimeout(this.timer)
             this._play()
           }
         })
     }
     _initDots = () => {
-        this.dots = new Array(this.children.length)
+        this.setState({dots: new Array(this.children.length)})
     }
     _play = () => {
         this.timer = setTimeout(() => {
           this.BSlider.next(400)
-        }, this.interval)
+        }, this.props.interval)
     }
     render() {
         const { dots, currentPageIndex } = this.state;
-        const dotItems = dots.map((item, index) =>
-            <span
-                className={currentPageIndex===index?'dot active':'dot'}
-                key={index}>
-            </span>
-        );
         return (
             <div className="slider" ref={(slider) => {this.slider = slider}}>
                 <div className="slider-group" ref={(sliderGroup) => {this.sliderGroup = sliderGroup}}>
                     {this.props.children}
                 </div>
                 <div className="dots">
-                    {dotItems}
+                    {
+                        dots.map((item, index) => 
+                            <span
+                                className={currentPageIndex===index?'dot active':'dot'}
+                                key={index}>
+                            </span>
+                        )
+                    }
                 </div>
             </div>
         );
@@ -106,7 +113,7 @@ Slider.propTypes = {
 
 Slider.defaultProps = {
     loop: true,
-    autoPlay: true,
+    autoPlay: false,
     interval: 4000,
     click: true
 }
