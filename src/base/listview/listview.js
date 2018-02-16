@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ProbeTypes from 'prop-types';
 import Scroll from 'base/scroll/scroll';
 import Loading from 'base/loading/loading';
+import './listview.less';
 
 export default class ListView extends Component {
     state = {
