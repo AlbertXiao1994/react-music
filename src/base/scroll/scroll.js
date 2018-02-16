@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BScroll from 'better-scroll';
+import { is, fromJS } from 'immutable';
 
 export default class Scroll extends Component {
-    componentDidMount = () => {
-        this._initScroll();
-    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             setTimeout(() => {
-                this._initScroll();
+                this._initScroll()
                 this.refresh()
               }, this.props.refreshDelay)
         }
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
+    handleScroll = (pos) => {
+        this.props.scroll(pos)
     }
     _initScroll = () => {
         if (!this.wrapper) {
@@ -22,6 +26,13 @@ export default class Scroll extends Component {
           probeType: this.props.probeType,
           click: this.props.click
         })
+
+        if (this.props.listenScroll) {
+            let _this = this
+            this.scroll.on('scroll', (pos) => {
+              _this.handleScroll(pos)
+            })
+          }  
     }
     refresh = () => {
         this.scroll && this.scroll.refresh()
