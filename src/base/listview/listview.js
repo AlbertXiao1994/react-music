@@ -16,6 +16,9 @@ export default class ListView extends Component {
         this.listenScroll = true
         this.probeType = 3
     }
+    createMarkup = (item) => {
+		return {__html: item.name};
+	};
     render() {
         return (
             <Scroll
@@ -38,8 +41,8 @@ export default class ListView extends Component {
                                     {
                                         group.items.map((item, id) =>
                                             <li className="list-group-item" key={id}>
-                                                <img className="avatar" src={item.avatar_s} alt="" />>
-                                                <span className="name" dangerouslySetInnerHTML={item.name}></span>
+                                                <img className="avatar" src={item.avatar_s} alt="" />
+                                                <span className="name" dangerouslySetInnerHTML={this.createMarkup(item)}></span>
                                             </li>
                                         )
                                     }
