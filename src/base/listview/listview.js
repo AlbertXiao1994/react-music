@@ -48,7 +48,7 @@ export default class ListView extends Component {
                         )
                     }
                 </ul>
-                <div class="loading-container">
+                <div className="loading-container">
                     {
                         !this.props.data.length
                         ? <Loading />
