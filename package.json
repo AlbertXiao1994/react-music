@@ -6,10 +6,12 @@
     "axios": "^0.17.1",
     "better-scroll": "^1.8.1",
     "fastclick": "^1.0.6",
+    "immutable": "^3.8.2",
     "jsonp": "^0.2.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-lazyload": "^2.3.0",
     "react-router-dom": "^4.2.2",
     "whatwg-fetch": "2.0.3"
   },
