@@ -18,6 +18,9 @@ export default class Scroll extends Component {
     handleScroll = (pos) => {
         this.props.scroll(pos)
     }
+    scrollToElement() {
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+    }
     _initScroll = () => {
         if (!this.wrapper) {
           return
