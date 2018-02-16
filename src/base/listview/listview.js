@@ -8,7 +8,8 @@ export default class ListView extends Component {
     state = {
         currentIndex: 0,
         scrollY: -1,
-        diff: -1
+        diff: -1,
+        shortcutList: []
     };
     componentWillMount() {
         this.listHeight = []
@@ -16,9 +17,15 @@ export default class ListView extends Component {
         this.listenScroll = true
         this.probeType = 3
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            let arr = nextProps.data.map((group) => group.title.substr(0, 1));
+            this.setState({shortcutList: arr})
+        }
+    }
     createMarkup = (item) => {
 		return {__html: item.name};
-	};
+    }
     render() {
         return (
             <Scroll
@@ -51,6 +58,20 @@ export default class ListView extends Component {
                         )
                     }
                 </ul>
+                <div className="list-shortcut">
+                    <ul>
+                        {
+                            this.state.shortcutList.map((item, index) =>
+                                <li 
+                                    className={this.state.currentIndex===index?'item current':'item'}
+                                    data-index={index}
+                                    key={index}
+                                >{item}
+                                </li>
+                            )
+                        }
+                    </ul>
+                </div>
                 <div className="loading-container">
                     {
                         !this.props.data.length
