@@ -13,7 +13,8 @@ export default class ListView extends Component {
         currentIndex: 0,
         scrollY: -1,
         diff: -1,
-        shortcutList: []
+        shortcutList: [],
+        fixedTitle: ''
     };
     componentWillMount() {
         this.listHeight = []
@@ -21,7 +22,6 @@ export default class ListView extends Component {
         this.listenScroll = true
         this.probeType = 3
         this.listGroup = []
-        this.fixedTitle = ''
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
@@ -29,6 +29,7 @@ export default class ListView extends Component {
             this.setState({shortcutList: arr})
             setTimeout(() => {
                 this._calListHeight()
+                this.handleFixTitleChange(this.state.currentIndex)
             }, 20)
         }
     }
@@ -92,7 +93,7 @@ export default class ListView extends Component {
     }
     handleFixTitleChange = (currentIndex) => {
         let item = this.props.data[currentIndex];
-        this.fixedTitle = item ? item.title : '';
+        this.setState({fixedTitle: item ? item.title : ''})
     }
     refresh = () => {
         this.listview.refresh()
@@ -153,7 +154,7 @@ export default class ListView extends Component {
                     this.state.scrollY < 0
                     ? (
                         <div className="list-fixed" ref={topFixed => this.topFixed = topFixed}>
-                            <div className="fixed-title">{this.fixedTitle}</div>
+                            <div className="fixed-title">{this.state.fixedTitle}</div>
                         </div>
                       )
                     : '' 
