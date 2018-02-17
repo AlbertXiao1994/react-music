@@ -48,7 +48,6 @@ export default class ListView extends Component {
         let anchorIndex = getAttr(e.target, 'index');
         anchorIndex = parseInt(anchorIndex, 10)
 
-        this.setState({currentIndex: anchorIndex})
         let firstTouch = e.touches[0]
         this.touch.y1 = firstTouch.pageY
         this.touch.anchorIndex = anchorIndex
@@ -157,7 +156,7 @@ export default class ListView extends Component {
                             <div className="fixed-title">{this.state.fixedTitle}</div>
                         </div>
                       )
-                    : '' 
+                    : ''
                 }
                 <div className="list-shortcut" onTouchStart={this.shortcutToggle}>
                     <ul>
