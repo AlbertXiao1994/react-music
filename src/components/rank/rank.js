@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Scroll from 'base/scroll/scroll'
-import Loading from 'base/loading/loading'
-import {getTopList} from 'api/rank'
+import Scroll from 'base/scroll/scroll';
+import Loading from 'base/loading/loading';
+import { getTopList } from 'api/rank';
 
 export default class RouterConfig extends Component {
     state = {
@@ -17,7 +17,7 @@ export default class RouterConfig extends Component {
                     {
                         !this.state.topList.length
                         ? <div className="loading-container">
-                            <Loading />
+                            <Loading /> 
                           </div>
                         : ''
                     }
