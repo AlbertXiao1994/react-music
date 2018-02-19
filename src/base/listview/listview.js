@@ -54,13 +54,22 @@ export default class ListView extends Component {
         this._scrollTo(anchorIndex)
     }
     stcToggleMove = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         let firstTouch = e.touches[0]
         this.touch.y2 = firstTouch.pageY
         let delta = (this.touch.y2 - this.touch.y1) / AHCHOR_HEIGHT | 0
         let anchorIndex = this.touch.anchorIndex + delta
         this._scrollTo(anchorIndex)
     }
+    onTouchEnd = (e) => {
+        e.stopPropagation();
+        this.scrollToFlag = false
+    }
     handleScroll = (pos) => {
+        if (this.scrollToFlag ) {
+            return;
+        }
         this.setState({scrollY: pos.y})
         let { scrollY } = this.state;
         if (scrollY > 0) {
@@ -104,6 +113,10 @@ export default class ListView extends Component {
             index = this.listHeight.length - 2
         }
         this.setState({currentIndex: index})
+        
+        // 设置导航滚动标志位，为真时阻止监听scroll组件的scroll事件的响应
+        this.scrollToFlag = true
+
         this.listview.scrollToElement(this.listGroup[index], 400)
     }
     _calListHeight = () => {
@@ -158,7 +171,11 @@ export default class ListView extends Component {
                       )
                     : ''
                 }
-                <div className="list-shortcut" onTouchStart={this.shortcutToggle}>
+                <div
+                    className="list-shortcut"
+                    onTouchStart={this.shortcutToggle}
+                    onTouchMove={this.stcToggleMove}
+                    onTouchEnd={this.onTouchEnd}>
                     <ul>
                         {
                             this.state.shortcutList.map((item, index) =>
