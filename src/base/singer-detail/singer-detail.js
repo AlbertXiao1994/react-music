@@ -10,6 +10,30 @@ export default class SingerDetail extends Component {
         title: '',
         songs: []
     }
+    _getSingerDetail() {
+        if (!this.singer.id) {
+          this.$router.push({
+            path: '/singer'
+          })
+          return
+        }
+        getSingerDetail(this.singer.id).then((res) => {
+          if (res.code === ERR_OK) {
+            this.songs = this._normalizeSongs(res.data.list)
+            this.setState({songs: this._normalizeSongs(res.data.list)})
+          }
+        }, (err) => {
+          console.log(err)
+        })
+    }
+     _normalizeSongs(list) {
+        let ret = []
+        list.forEach((item) => {
+          let { musicData } = item
+          ret.push(createSong(musicData))
+        })
+        return ret
+    }
     render() {
         return (
             <div>
