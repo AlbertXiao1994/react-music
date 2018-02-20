@@ -5,6 +5,7 @@ import './recommend.less';
 import { getRecommend, getDiscList } from 'api/recommend';
 import { ERR_OK } from 'api/config';
 import Loading from 'base/loading/loading';
+// import { Route } from 'react-router-dom';
 
 export default class Recommend extends Component {
   state = {
@@ -88,6 +89,10 @@ export default class Recommend extends Component {
               }
           </div>
         </Scroll>
+        {/* <Route
+          path={`${this.props.match.url}/:Id`}
+          component={Topic}
+        /> */}
       </div>
     );
   }
