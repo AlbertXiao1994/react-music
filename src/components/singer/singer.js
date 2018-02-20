@@ -4,6 +4,11 @@ import { getSingerList } from 'api/singer';
 import { ERR_OK } from 'api/config';
 import Singer from 'common/js/singer';
 import './singer.less';
+import { Route } from 'react-router-dom';
+import SingerDetail from 'components/singer-detail/singer-detail';
+import createHistory from "history/createBrowserHistory";
+
+const history = createHistory();
 const HOT_NAME = '热门';
 const HOT_LEN = 10;
 
@@ -13,6 +18,12 @@ export default class SingerComp extends Component {
     };
     componentWillMount() {
         this._getSingerList()
+    }
+    selectSinger(singer) {
+        history.push({
+          path: `/singer/${singer.id}`
+        })
+        // this.setSinger(singer)
     }
     _getSingerList = () => {
         getSingerList().then((res) => {
@@ -70,6 +81,7 @@ export default class SingerComp extends Component {
         return (
             <div className="singer" ref={singer => this.singer = singer}>
                 <ListView data={this.state.singers} ref={list => this.list = list}></ListView>
+                <Route path={`${this.props.match.url}/:Id`} component={SingerDetail} />
             </div>
         );
     }
