@@ -32,10 +32,11 @@ export default class MusicList extends Component {
     handleScroll = (pos) => {
         this.setState({scrollY: pos.y})
         let { scrollY } = this.state;
+        
+        let translateY = Math.max(this.maxTranslateY, scrollY);
+        let scale = 1;
+        let zIndex = 0;
 
-        let translateY = Math.max(this.maxTranslateY, scrollY)
-        let scale = 1
-        let zIndex = 0
         this.bgLayer.style[transform] = `translate3d(0,${translateY}px,0)`
         if (scrollY > 0) {
           zIndex = 10
@@ -54,21 +55,20 @@ export default class MusicList extends Component {
           this.playBtn.style.display = 'block'
         }
         this.bgImage.style.zIndex = `${zIndex}`
-      }
     }
     back = () => {
-        history.goBack();
+        history.goBack()
     }
     randomPlayAll = () => {
 
     }
-    _filterSongs(list) {
+    _filterSongs = (list) => {
         let ret = []
         ret = list.filter((song) => {
           // 免费播放
-          return song.payplay === 0
+          return song.payplay === 0;
         })
-        return ret
+        return ret;
     }
     render() {
         return (
@@ -77,7 +77,7 @@ export default class MusicList extends Component {
                     <i className="icon-back"></i>
                 </div>
                 <h1 className="title">{this.props.title}</h1>
-                <div className="bg-image" style={this.state.bgStyle} ref={bgImage => this.bgImage=bgImage}>
+                <div className="bg-image" style={this.state.bgStyle} ref={bgImage => this.bgImage = bgImage}>
                     <div className="filter"></div>
                     <div className="play-wrapper">
                     songs.length>0
