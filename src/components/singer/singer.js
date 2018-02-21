@@ -80,7 +80,12 @@ export default class SingerComp extends Component {
     render() {
         return (
             <div className="singer" ref={singer => this.singer = singer}>
-                <ListView data={this.state.singers} ref={list => this.list = list}></ListView>
+                <ListView
+                    data={this.state.singers}
+                    ref={list => this.list = list}
+                    select={this.selectSinger}
+                >
+                </ListView>
                 <Route path={`${this.props.match.url}/:Id`} component={SingerDetail} />
             </div>
         );

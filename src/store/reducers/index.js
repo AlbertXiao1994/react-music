@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import list from './list';
-import history from './history';
-import player from './player';
+import * as list from './list';
+import * as history from './history';
+import * as player from './player';
 
 export default combineReducers({
-    list,
-    history,
-    player
+    ...list,
+    ...history,
+    ...player
 })
