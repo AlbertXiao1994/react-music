@@ -14,11 +14,11 @@ export default class SingerDetail extends Component {
         songs: []
     }
     _getSingerDetail() {
-        if (!this.singer.id) {
+        if (!this.props.singer.id) {
           history.push('/singer')
           return;
         }
-        getSingerDetail(this.singer.id).then((res) => {
+        getSingerDetail(this.props.singer.id).then((res) => {
           if (res.code === ERR_OK) {
             this.setState({songs: this._normalizeSongs(res.data.list)})
           }
