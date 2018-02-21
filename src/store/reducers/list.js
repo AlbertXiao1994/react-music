@@ -4,7 +4,7 @@ const defaultState = {
     singer: {}
 }
 
-export const singer = (state, action) => {
+export const singer = (state = defaultState, action) => {
     switch(action.type) {
         case types.SET_SINGER:
             return {
