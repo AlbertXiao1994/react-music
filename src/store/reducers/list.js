@@ -1,4 +1,4 @@
-import * as types from '../action-type';
+import * as types from '../action-types';
 
 const defaultState = {
     singer: {}
