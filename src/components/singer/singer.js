@@ -7,23 +7,29 @@ import './singer.less';
 import { Route } from 'react-router-dom';
 import SingerDetail from 'components/singer-detail/singer-detail';
 import createHistory from "history/createBrowserHistory";
+import { is, fromJS } from 'immutable';
+import { connect } from 'react-redux';
+// import { setSinger } from '@/store/actions';
 
 const history = createHistory();
 const HOT_NAME = '热门';
 const HOT_LEN = 10;
 
-export default class SingerComp extends Component {
+class SingerComp extends Component {
     state = {
         singers: []
     };
     componentWillMount() {
         this._getSingerList()
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
     selectSinger(singer) {
         history.push({
           path: `/singer/${singer.id}`
         })
-        // this.setSinger(singer)
+        // this.props.setSinger(singer)
     }
     _getSingerList = () => {
         getSingerList().then((res) => {
@@ -91,3 +97,10 @@ export default class SingerComp extends Component {
         );
     }
 }
+
+// const mapDispatchToProps = (dispatch) => ({
+//     setSinger
+// })
+
+// export default connect(mapDispatchToProps)(SingerComp)
+export default connect()(SingerComp)
