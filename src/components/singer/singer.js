@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom';
 import SingerDetail from 'components/singer-detail/singer-detail';
 import { is, fromJS } from 'immutable';
 import { connect } from 'react-redux';
-// import { setSinger } from '@/store/actions';
+import { setSinger } from '@/store/actions';
 
 const HOT_NAME = '热门';
 const HOT_LEN = 10;
@@ -25,7 +25,7 @@ class SingerComp extends Component {
     }
     selectSinger = (singer) => {
         this.props.history.push(`/singer/${singer.id}`)
-        // this.props.setSinger(singer)
+        this.props.setSinger(singer)
     }
     _getSingerList = () => {
         getSingerList().then((res) => {
@@ -100,9 +100,9 @@ class SingerComp extends Component {
     }
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//     setSinger
-// })
+const mapDispatchToProps = (dispatch) => ({
+    setSinger
+})
 
-// export default connect(mapDispatchToProps)(SingerComp)
-export default connect()(SingerComp)
+export default connect(mapDispatchToProps)(SingerComp)
+// export default connect()(SingerComp)
