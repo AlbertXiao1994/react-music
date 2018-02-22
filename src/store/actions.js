@@ -6,6 +6,7 @@ const receiveSinger = singer => ({
 })
 
 export const setSinger = (singer) => dispatch => {
+    console.log(singer)
     dispatch(receiveSinger(singer))
 }
 
