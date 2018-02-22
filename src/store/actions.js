@@ -1,6 +1,11 @@
 import * as types from './action-types';
 
-export const setSinger = singer => ({
+const receiveSinger = singer => ({
     type: types.SET_SINGER,
     singer
 })
+
+export const setSinger = (singer) => dispatch => {
+    dispatch(receiveSinger(singer))
+}
+
