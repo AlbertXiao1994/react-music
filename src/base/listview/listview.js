@@ -106,8 +106,7 @@ export default class ListView extends Component {
     refresh = () => {
         this.listview.refresh()
     }
-    selectItem(item) {
-        // this.$emit('select', item)
+    selectItem = (item) => {
         this.props.select(item)
     }
     _scrollTo = (index) => {
@@ -158,7 +157,7 @@ export default class ListView extends Component {
                                             <li
                                                 className="list-group-item"
                                                 key={id}
-                                                onClick={this.selectItem(item)}
+                                                onClick={()=>this.selectItem(item)}
                                             >
                                                 <img className="avatar" src={item.avatar_s} alt="" />
                                                 <span className="name" dangerouslySetInnerHTML={this.createMarkup(item)}></span>
