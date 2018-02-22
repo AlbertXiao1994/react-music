@@ -6,12 +6,10 @@ import Singer from 'common/js/singer';
 import './singer.less';
 import { Route } from 'react-router-dom';
 import SingerDetail from 'components/singer-detail/singer-detail';
-import createHistory from "history/createBrowserHistory";
 import { is, fromJS } from 'immutable';
 import { connect } from 'react-redux';
 // import { setSinger } from '@/store/actions';
 
-const history = createHistory();
 const HOT_NAME = '热门';
 const HOT_LEN = 10;
 
@@ -25,10 +23,8 @@ class SingerComp extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    selectSinger(singer) {
-        history.push({
-          path: `/singer/${singer.id}`
-        })
+    selectSinger = (singer) => {
+        this.props.history.push(`/singer/${singer.id}`)
         // this.props.setSinger(singer)
     }
     _getSingerList = () => {
@@ -86,13 +82,19 @@ class SingerComp extends Component {
     render() {
         return (
             <div className="singer" ref={singer => this.singer = singer}>
-                <ListView
-                    data={this.state.singers}
-                    ref={list => this.list = list}
-                    select={this.selectSinger}
-                >
-                </ListView>
-                <Route path={`${this.props.match.url}/:Id`} component={SingerDetail} />
+                <Route path={`${this.props.match.url}/:singerId`} component={SingerDetail} />
+                <Route
+                    exact
+                    path={this.props.match.url}
+                    render={() => 
+                        <ListView
+                            data={this.state.singers}
+                            ref={list => this.list = list}
+                            select={this.selectSinger}
+                        >
+                        </ListView>
+                    }
+                />
             </div>
         );
     }
