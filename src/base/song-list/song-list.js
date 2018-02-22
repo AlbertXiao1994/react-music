@@ -1,6 +1,28 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import './song-list.less';
 
 export default class SongList extends Component {
+    selectItem = (song, index) => {
+        if (song.payplay === 1) {
+          return;
+        }
+        this.props.select(song, index)
+    }
+    getRankCls = (index) => {
+        if (index <= 2) {
+          return `icon icon${index}`;
+        } else {
+          return 'text';
+        }
+    }
+    getRankText = (index) => {
+        if (index <= 2) {
+          return '';
+        } else {
+          return index;
+        }
+    }
     render() {
         return (
             <div className="song-list">
@@ -26,3 +48,13 @@ export default class SongList extends Component {
         );
     }
 }
+
+SongList.propTypes = {
+    songs: PropTypes.array,
+    rank: PropTypes.bool
+};
+
+SongList.defaultProps = {
+    songs:[],
+    rank: false
+};
