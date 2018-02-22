@@ -35,7 +35,6 @@ export default class SongList extends Component {
                                 <span className={this.getRankCls(index)}>{this.getRankText(index)}</span>
                               </div>
                             : ''
-                            
                             <div className="content">
                                 <h2 className={song.payplay===1?"name invalid":"name"}>{song.name}</h2>
                                 <p className="desc">{song.singer}·{song.album}</p>
