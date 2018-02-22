@@ -6,6 +6,7 @@ import Loading from 'base/loading/loading';
 import { prefixStyle } from 'common/js/dom';
 import { is, fromJS } from 'immutable';
 import createHistory from "history/createBrowserHistory";
+import './music-list.less';
 
 const history = createHistory();
 
@@ -61,6 +62,12 @@ export default class MusicList extends Component {
     }
     randomPlayAll = () => {
 
+    }
+    onSelect(song, index) {
+        // this.selectPlay({
+        //   list: this._filterSongs(this.songs),
+        //   index
+        // })
     }
     _filterSongs = (list) => {
         let ret = []
