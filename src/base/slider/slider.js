@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BScroll from 'better-scroll';
-import {addClass} from 'common/js/dom';
+import { addClass } from 'common/js/dom';
+import { is, fromJS } from 'immutable';
 import './slider.less';
 
 export default class Slider extends Component {
@@ -9,6 +10,9 @@ export default class Slider extends Component {
         dots: [],
         currentPageIndex: 0
     };
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.children.length !== this.props.children.length && nextProps.children.length > 0) {
             setTimeout(() => {

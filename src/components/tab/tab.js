@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { is, fromJS } from 'immutable';
 import './tab.less';
 
 export default class Tab extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
     render() {
         return (
             <div className="tab">

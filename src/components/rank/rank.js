@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Scroll from 'base/scroll/scroll';
 import Loading from 'base/loading/loading';
 import { getTopList } from 'api/rank';
+import { is, fromJS } from 'immutable';
 import './rank.less';
 
 export default class RouterConfig extends Component {
@@ -13,6 +14,9 @@ export default class RouterConfig extends Component {
     }
     selectItem = (item) => {
 
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     _getTopList() {
         getTopList().then((res) => {

@@ -16,4 +16,4 @@ export const setSinger = (state = defaultState, action) => {
     }
 }
 
-export const getSinger = state => state.singer
+// export const getSinger = state => state.singer

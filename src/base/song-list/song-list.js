@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { is, fromJS } from 'immutable';
 import './song-list.less';
 
 export default class SongList extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
     selectItem = (song, index) => {
         if (song.payplay === 1) {
           return;

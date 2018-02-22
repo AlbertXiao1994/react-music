@@ -5,10 +5,7 @@ import Scroll from 'base/scroll/scroll';
 import Loading from 'base/loading/loading';
 import { prefixStyle } from 'common/js/dom';
 import { is, fromJS } from 'immutable';
-import createHistory from "history/createBrowserHistory";
 import './music-list.less';
-
-const history = createHistory();
 
 const RESERVED_HEIGHT = 40;
 const transform = prefixStyle('transform');
@@ -58,7 +55,7 @@ export default class MusicList extends Component {
         this.bgImage.style.zIndex = `${zIndex}`
     }
     back = () => {
-        history.goBack()
+        this.props.history.goBack()
     }
     randomPlayAll = () => {
 
@@ -123,7 +120,7 @@ export default class MusicList extends Component {
 MusicList.propTypes = {
     bgImage: PropTypes.string,
     title: PropTypes.string,
-    songs: PropTypes.Array,
+    songs: PropTypes.array,
     rank: PropTypes.bool
 }
 

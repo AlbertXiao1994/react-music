@@ -2,20 +2,26 @@ import React, { Component } from 'react';
 import { getSingerDetail } from 'api/singer';
 import { ERR_OK } from 'api/config';
 import { createSong } from 'common/js/song';
-import MusicList from 'components/music-list/music-list';
-import createHistory from "history/createBrowserHistory";
+// import MusicList from 'components/music-list/music-list';
+import { connect } from 'react-redux';
+import { is, fromJS } from 'immutable';
 
-const history = createHistory();
-
-export default class SingerDetail extends Component {
+class SingerDetail extends Component {
     state = {
         bgImage: '',
         title: '',
         songs: []
     }
+    componentWillMount() {
+        // this._getSingerDetail()
+        console.log(this.props.singer)
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
     _getSingerDetail() {
         if (!this.props.singer.id) {
-          history.push('/singer')
+          this.props.history.push("/singer")
           return;
         }
         getSingerDetail(this.props.singer.id).then((res) => {
@@ -37,12 +43,23 @@ export default class SingerDetail extends Component {
     render() {
         return (
             <div>
-                <MusicList
+                {/* <MusicList
                     bg-image={this.state.bgImage}
                     title={this.state.title}
                     songs={this.state.songs}>
-                </MusicList>
+                </MusicList> */}
+                SingerDetail
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    singer: state.singer
+})
+
+// const mapDispatchToProps = (dispatch) => ({
+//     setSinger
+// })
+
+export default connect(mapStateToProps)(SingerDetail)

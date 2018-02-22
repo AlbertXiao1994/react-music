@@ -5,6 +5,7 @@ import './recommend.less';
 import { getRecommend, getDiscList } from 'api/recommend';
 import { ERR_OK } from 'api/config';
 import Loading from 'base/loading/loading';
+import { is, fromJS } from 'immutable';
 // import { Route } from 'react-router-dom';
 
 export default class Recommend extends Component {
@@ -15,6 +16,9 @@ export default class Recommend extends Component {
   componentWillMount() {
     this._getRecommend()
     this._getDiscList()
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
   }
   _getRecommend() {
     getRecommend().then((res) => {
