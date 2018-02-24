@@ -100,9 +100,12 @@ class SingerComp extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    setSinger
+const mapStateToProps = state => ({
+    singer: state.singer
 })
 
-export default connect(mapDispatchToProps)(SingerComp)
-// export default connect()(SingerComp)
+const mapDispatchToProps =  {
+    setSinger
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingerComp)
