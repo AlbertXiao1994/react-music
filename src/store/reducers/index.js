@@ -6,6 +6,7 @@ import * as fromList from './list';
 
 export default combineReducers({
     setSinger,
+    // list,
     ...history,
     ...player
 })

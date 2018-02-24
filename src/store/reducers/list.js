@@ -1,5 +1,5 @@
 import * as types from '../action-types';
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 
 const initialState = {
     singer: {}
@@ -18,3 +18,7 @@ export const setSinger = (state = initialState, action) => {
 }
 
 export const getSinger = state => state.singer
+
+// export default combineReducers({
+//     setSinger
+// })
