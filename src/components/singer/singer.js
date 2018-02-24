@@ -100,9 +100,7 @@ class SingerComp extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    singer: state.singer
-})
+const mapStateToProps = state => {}
 
 const mapDispatchToProps =  {
     setSinger
