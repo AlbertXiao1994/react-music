@@ -1,10 +1,11 @@
 import * as types from '../action-types';
+import { combineReducers } from 'redux';
 
-const defaultState = {
+const initialState = {
     singer: {}
 }
 
-export const setSinger = (state = defaultState, action) => {
+export const setSinger = (state = initialState, action) => {
     switch(action.type) {
         case types.SET_SINGER:
             return {
@@ -16,4 +17,4 @@ export const setSinger = (state = defaultState, action) => {
     }
 }
 
-// export const getSinger = state => state.singer
+export const getSinger = state => state.singer
