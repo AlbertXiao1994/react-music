@@ -22,10 +22,16 @@ export default class MusicList extends Component {
     componentDidMount() {
         this.imageHeight = this.bgImage.clientHeight
         this.maxTranslateY = -this.imageHeight + RESERVED_HEIGHT
-        this.list.style.top = `${this.imageHeight}px`
+        // console.log(this.list)
+        // this.list.style.top = `${this.imageHeight}px`
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.bgImage !== this.props.bgImage) {
+            this.setState({bgStyle: `background-image:url(${nextProps.bgImage})`})
+        }
     }
     handleScroll = (pos) => {
         this.setState({scrollY: pos.y})
@@ -81,19 +87,21 @@ export default class MusicList extends Component {
                     <i className="icon-back"></i>
                 </div>
                 <h1 className="title">{this.props.title}</h1>
-                <div className="bg-image" style={this.state.bgStyle} ref={bgImage => this.bgImage = bgImage}>
+                <div className="bg-image" style={this.props.bgStyle} ref={bgImage => this.bgImage = bgImage}>
                     <div className="filter"></div>
                     <div className="play-wrapper">
-                    songs.length>0
-                    ? <div 
-                        ref={playBtn => this.playBtn=playBtn}
-                        className="play"
-                        onClick={this.randomPlayAll}
-                      >
-                        <i className="icon-play"></i>
-                        <span className="text">随机播放全部</span>
-                      </div>
-                    : ''
+                    {
+                        this.props.songs.length>0
+                        ? <div 
+                            ref={playBtn => this.playBtn=playBtn}
+                            className="play"
+                            onClick={this.randomPlayAll}
+                          >
+                            <i className="icon-play"></i>
+                            <span className="text">随机播放全部</span>
+                        </div>
+                        : ''
+                    }
                     </div>
                 </div>
                 <div className="bg-layer" ref={bgLayer => this.bgLayer = bgLayer}></div>
