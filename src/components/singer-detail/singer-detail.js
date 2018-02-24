@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getSingerDetail } from 'api/singer';
 import { ERR_OK } from 'api/config';
 import { createSong } from 'common/js/song';
-// import MusicList from 'components/music-list/music-list';
+import MusicList from 'components/music-list/music-list';
 import { connect } from 'react-redux';
 import { is, fromJS } from 'immutable';
 import { getSinger } from '@/store/reducers';
@@ -13,9 +13,9 @@ class SingerDetail extends Component {
         title: '',
         songs: []
     }
-    componentDidMount() {
-        // this._getSingerDetail()
-        console.log(this.props.singer)
+    componentWillMount() {
+        this._getSingerDetail()
+        // console.log(this.props.singer)
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
@@ -44,12 +44,12 @@ class SingerDetail extends Component {
     render() {
         return (
             <div>
-                {/* <MusicList
+                <MusicList
                     bg-image={this.state.bgImage}
                     title={this.state.title}
                     songs={this.state.songs}>
-                </MusicList> */}
-                SingerDetail
+                </MusicList>
+                {/* SingerDetail */}
             </div>
         );
     }

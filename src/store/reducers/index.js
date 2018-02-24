@@ -12,6 +12,5 @@ export default combineReducers({
 })
 
 export const getSinger = (state) => {
-    console.log(state)
     return fromList.getSinger(state.setSinger)
 }
