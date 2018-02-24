@@ -5,6 +5,7 @@ import { createSong } from 'common/js/song';
 // import MusicList from 'components/music-list/music-list';
 import { connect } from 'react-redux';
 import { is, fromJS } from 'immutable';
+import { getSinger } from '@/store/reducers';
 
 class SingerDetail extends Component {
     state = {
@@ -12,7 +13,7 @@ class SingerDetail extends Component {
         title: '',
         songs: []
     }
-    componentWillMount() {
+    componentDidMount() {
         // this._getSingerDetail()
         console.log(this.props.singer)
     }
@@ -55,11 +56,7 @@ class SingerDetail extends Component {
 }
 
 const mapStateToProps = state => ({
-    singer: state.singer
+    singer: getSinger(state)
 })
-
-// const mapDispatchToProps = (dispatch) => ({
-//     setSinger
-// })
 
 export default connect(mapStateToProps)(SingerDetail)
