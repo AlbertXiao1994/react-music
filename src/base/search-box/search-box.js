@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import { is, fromJS } from 'immutable';
 import PropTypes from 'prop-types';
-import {debounce} from 'common/js/util'
+import { debounce } from 'common/js/util';
+import './search-box.less';
 
 export default class SearchBox extends Component {
     state = {
         query: ''
     }
-    componentWillReceiveProps(nextProps) {
-        debounce((newVal) => {
-            this.props.queryChange(newVal)
-          }, 200)
-    }
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.query !== this.state.query) {
+            debounce(() => {
+                this.props.queryChange(nextState.query)
+              }, 200)()
+            // fun()
+        }
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    clear() {
+    clear = () => {
         this.setState({query: ''})
     }
-    setQuery(newVal) {
-        this.setState({query: newVal})
+    setQuery = (e) => {
+        this.setState({query: e.target.value})
     }
-    blur() {
+    blur = () => {
         this.input.blur()
     }
     render() {
@@ -30,9 +32,10 @@ export default class SearchBox extends Component {
                 <i className="icon-search"></i>
                 <input 
                     ref={input=>this.input=input}
-                    class="box"
-                    value="query"
-                    placeholder="placeholder"
+                    className="box"
+                    value={this.state.query}
+                    placeholder={this.props.placeholder}
+                    onChange={this.setQuery}
                 />
                 {
                     this.state.query
