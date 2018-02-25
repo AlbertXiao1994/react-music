@@ -10,13 +10,89 @@ import NoResult from 'base/no-result/no-result';
 import Singer from 'common/js/singer';
 import PropTypes from 'prop-types';
 
+const PER_PAGE = 20;
+const TYPE_SINGER = 'singer';
+
 export default class Suggest extends Component {
     state = {
+        pageNum: 1,
         result: [],
-        hasMore: false
+        hasMore: true,
+        pullup: true,
+        beforeScroll: true
     };
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
+    search(query) {
+        getSearch(query, PER_PAGE, this.state.pageNum, this.props.showSinger).then((res) => {
+          if (res.code === ERR_OK) {
+            this.setState({result: this.result.concat(this._normalize(res.data))})
+            this._checkMore(res.data)
+          }
+        })
+    }
+    searchMore() {
+        if (!this.state.hasMore) {
+          return;
+        }
+        this.setState((prevState, props) => ({
+            pageNum: prevState.pageNum + 1
+        }));
+        this.search(this.props.query)
+    }
+    getIconCls(item) {
+        if (item.type === TYPE_SINGER) {
+          return 'icon-mine';
+        } else {
+          return 'icon-music';
+        }
+    }
+    getText(item) {
+        if (item.type === TYPE_SINGER) {
+          return {__html:item.singername};
+        } else {
+          return {__html:`${item.name}-${item.singer}`};
+        }
+    }
+    listScroll() {
+        this.props.listScroll()
+    }
+    selectItem(item) {
+        if (item.type === TYPE_SINGER) {
+          let singer = new Singer({
+            id: item.singermid,
+            name: item.singername
+          })
+          this.props.history.push( `/search/${singer.id}`)
+          this.setSinger(singer)
+        } else {
+        //   this.insertSong(item)
+        }
+        this.props.select(item)
+    }
+    refresh() {
+        this.scroll.refresh()
+    }
+    _checkMore(data) {
+        const song = data.song
+        if (!song.list.length || (song.curnum * song.curpage) >= song.totalnum) {
+          this.setState({hasMore: false})
+        }
+    }
+    _normalize(data) {
+        let ret = []
+        if (data.zhida && data.zhida.singerid) {
+          ret.push({...data.zhida, ...{type: TYPE_SINGER}})
+        }
+        return ret.concat(this._normalizeSongs(data.song.list));
+    }
+    _normalizeSongs(list) {
+        let ret = []
+        list.forEach((musicData) => {
+          ret.push(createSong(musicData))
+        })
+        return ret;
     }
     render() {
         const { result, hasMore } = this.state;
@@ -36,10 +112,10 @@ export default class Suggest extends Component {
                                 !(item.type&&index!==0)
                                 ? <li className="suggest-item" onClick={()=>this.selectItem(item)}>
                                     <div className="icon">
-                                        <i className="getIconCls(item)"></i>
+                                        <i className={this.getIconCls(item)}></i>
                                     </div>
                                     <div className="name">
-                                        <p className="text" dangerouslySetInnerHTML={()=>this.getText(item)}></p>
+                                        <p className="text" dangerouslySetInnerHTML={this.getText(item)}></p>
                                     </div>
                                   </li>
                                 : ''
