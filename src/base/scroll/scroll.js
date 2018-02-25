@@ -15,9 +15,6 @@ export default class Scroll extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    handleScroll = (pos) => {
-        this.props.scroll(pos)
-    }
     scrollToElement() {
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     }
@@ -33,9 +30,25 @@ export default class Scroll extends Component {
         if (this.props.listenScroll) {
             let _this = this
             this.scroll.on('scroll', (pos) => {
-              _this.handleScroll(pos)
+              _this.props.scroll(pos)
             })
-          }  
+        }
+
+        if (this.props.pullup) {
+            let _this = this
+            this.scroll.on('scrollEnd', () => {
+              if (this.scroll.y <= this.scroll.maxScrollY + 50) {
+                _this.props.scrollToEnd()
+              }
+            })
+        }
+  
+        if (this.props.beforeScrollProp) {
+            let _this = this
+            this.scroll.on('beforeScrollStart', () => {
+                _this.props.beforeScroll()
+            })
+        }
     }
     refresh = () => {
         this.scroll && this.scroll.refresh()
@@ -60,7 +73,7 @@ Scroll.propTypes = {
     refreshDelay: PropTypes.number,
     listenScroll: PropTypes.bool,
     pullup: PropTypes.bool,
-    beforeScroll: PropTypes.bool
+    beforeScrollProp: PropTypes.bool
 };
 
 Scroll.defaultProps = {
@@ -70,5 +83,5 @@ Scroll.defaultProps = {
     refreshDelay: 20,
     listenScroll: false,
     pullup: false,
-    beforeScroll: false
+    beforeScrollProp: false
 }
