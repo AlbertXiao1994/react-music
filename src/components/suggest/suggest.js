@@ -101,10 +101,10 @@ export default class Suggest extends Component {
                 ref={scroll=>this.scroll=scroll}
                 className="suggest"
                 data={result}
-                scrollToEnd="searchMore" 
-                pullup="pullup"
-                beforeScroll="listScroll"
-                // :beforeScroll="beforeScroll"
+                scrollToEnd={this.searchMore}
+                pullup={this.state.pullup}
+                beforeScroll={this.listScroll}
+                beforeScrollProp={this.state.beforeScroll}
             >
                 <ul class="suggest-list">
                     {
