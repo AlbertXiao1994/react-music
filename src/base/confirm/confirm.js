@@ -3,8 +3,25 @@ import { is, fromJS } from 'immutable';
 import './confirm.less';
 
 export default class Confirm extends Component {
+    state = {
+        confirmShow: false 
+    }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
+    show() {
+        this.setState({confirmShow: true})
+    }
+    hide() {
+        this.setState({confirmShow: false})
+    }
+    cancel() {
+        this.props.cancel()
+        this.hide()
+    }
+    confirm() {
+        this.props.confirm()
+        this.hide()
     }
     render() {
         return (
