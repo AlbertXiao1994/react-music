@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { is, fromJS } from 'immutable';
 import PropTypes from 'prop-types';
-import './no-result,less';
+import './no-result.less';
 
 export default class NoResult extends Component {
     shouldComponentUpdate(nextProps, nextState) {
