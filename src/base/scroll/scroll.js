@@ -42,7 +42,11 @@ export default class Scroll extends Component {
     }
     render() {
         return (
-            <div className={this.props.className} ref={(wrapper) => {this.wrapper = wrapper}}>
+            <div
+                className={this.props.className}
+                ref={(wrapper) => {this.wrapper = wrapper}}
+                style={this.props.style}
+            >
                 {this.props.children}
             </div>
         );
