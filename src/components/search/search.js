@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { is, fromJS } from 'immutable';
+import './search.less';
 
 export default class Search extends Component {
     shouldComponentUpdate(nextProps, nextState) {
