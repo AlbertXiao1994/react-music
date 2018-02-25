@@ -15,6 +15,9 @@ export default class MusicList extends Component {
         scrollY: 0,
         scrollStyle: {}
     };
+    static contextTypes = {
+        router: PropTypes.object.isRequired
+    };
     componentWillMount() {
         this.probeType = 3
         this.listenScroll = true
@@ -25,7 +28,6 @@ export default class MusicList extends Component {
     componentDidMount() {
         this.imageHeight = this.bgImage.clientHeight
         this.maxTranslateY = -this.imageHeight + RESERVED_HEIGHT
-        // this.list.style.top = `${this.imageHeight}px`
         this.setState({scrollStyle: {top:`${this.imageHeight}px`}})
     }
     shouldComponentUpdate(nextProps, nextState) {
@@ -59,7 +61,8 @@ export default class MusicList extends Component {
         this.bgImage.style.zIndex = `${zIndex}`
     }
     back = () => {
-        this.props.history.goBack()
+        // 从context获取history
+        this.context.router.history.goBack()
     }
     randomPlayAll = () => {
 
