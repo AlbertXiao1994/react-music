@@ -17,11 +17,21 @@ export default class ListView extends Component {
         fixedTitle: ''
     };
     componentWillMount() {
-        this.listHeight = []
+        this.listGroup = []
         this.touch = {}
         this.listenScroll = true
         this.probeType = 3
-        this.listGroup = []
+    }
+    componentDidMount() {
+        // if (this.listGroup.children.length) {
+        //     let arr = this.props.data.map((group) => group.title.substr(0, 1));
+        //     this.setState({shortcutList: arr})
+        //     setTimeout(() => {
+        //         this._calListHeight()
+        //         this.handleFixTitleChange(this.state.currentIndex)
+        //         this.listview.refresh()
+        //     }, 20)
+        // }
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
@@ -142,7 +152,9 @@ export default class ListView extends Component {
                 listenScroll={this.listenScroll}
                 ref={listview => this.listview = listview}
             >
-                <ul>
+                <ul
+                    // ref={listGroup=>this.listGroup=listGroup}
+                >
                     {
                         this.props.data.map((group, index) => 
                             <li
