@@ -12,26 +12,24 @@ const transform = prefixStyle('transform');
 
 export default class MusicList extends Component {
     state = {
-        bgStyle: '',
-        scrollY: 0
+        scrollY: 0,
+        scrollStyle: {}
     };
     componentWillMount() {
         this.probeType = 3
         this.listenScroll = true
+        this.bgStyle = {
+            backgroundImage:`url(${this.props.bgImage})`
+        }
     }
     componentDidMount() {
         this.imageHeight = this.bgImage.clientHeight
         this.maxTranslateY = -this.imageHeight + RESERVED_HEIGHT
-        // console.log(this.list)
         // this.list.style.top = `${this.imageHeight}px`
+        this.setState({scrollStyle: {top:`${this.imageHeight}px`}})
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
-    }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.bgImage !== this.props.bgImage) {
-            this.setState({bgStyle: `background-image:url(${nextProps.bgImage})`})
-        }
     }
     handleScroll = (pos) => {
         this.setState({scrollY: pos.y})
@@ -82,12 +80,12 @@ export default class MusicList extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="music-list">
                 <div className="back" onClick={this.back}>
                     <i className="icon-back"></i>
                 </div>
                 <h1 className="title">{this.props.title}</h1>
-                <div className="bg-image" style={this.props.bgStyle} ref={bgImage => this.bgImage = bgImage}>
+                <div className="bg-image" style={this.bgStyle} ref={bgImage => this.bgImage = bgImage}>
                     <div className="filter"></div>
                     <div className="play-wrapper">
                     {
@@ -105,21 +103,23 @@ export default class MusicList extends Component {
                     </div>
                 </div>
                 <div className="bg-layer" ref={bgLayer => this.bgLayer = bgLayer}></div>
-                <Scroll 
-                    data={this.props.songs}
-                    className="list"
-                    probeType={this.probeType}
-                    listenScroll={this.listenScroll}
-                    scroll={this.handleScroll}
-                    ref={list => this.list = list}
-                >
-                    <div className="song-list-wrapper">
-                        <SongList songs={this.props.songs} select={this.onSelect} rank={this.props.rank} />
-                    </div>
-                    <div className="loading-wrapper">
-                        <Loading />
-                    </div>
-                </Scroll>
+                <div >
+                    <Scroll 
+                        data={this.props.songs}
+                        className="list"
+                        probeType={this.probeType}
+                        listenScroll={this.listenScroll}
+                        scroll={this.handleScroll}
+                        style={this.state.scrollStyle}
+                    >
+                        <div className="song-list-wrapper">
+                            <SongList songs={this.props.songs} select={this.onSelect} rank={this.props.rank} />
+                        </div>
+                        <div className="loading-wrapper">
+                            <Loading />
+                        </div>
+                    </Scroll>
+                </div>
             </div>
         );
     }
