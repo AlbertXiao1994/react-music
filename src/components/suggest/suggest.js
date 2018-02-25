@@ -63,9 +63,9 @@ export default class Suggest extends Component {
 Suggest.propTypes = {
     query: PropTypes.string,
     showSinger: PropTypes.bool
-}
+};
 
 Suggest.defaultProps = {
     query: '',
     showSinger: true
-}
+};
