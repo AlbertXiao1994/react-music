@@ -6,6 +6,7 @@ import MusicList from 'components/music-list/music-list';
 import { connect } from 'react-redux';
 import { is, fromJS } from 'immutable';
 import { getSinger } from '@/store/reducers';
+import PropTypes from 'prop-types';
 
 class SingerDetail extends Component {
     state = {
@@ -15,7 +16,7 @@ class SingerDetail extends Component {
     }
     componentWillMount() {
         this._getSingerDetail()
-        // console.log(this.props.singer)
+        this.setState({bgImage: this.props.singer.avatar_m})
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
@@ -45,14 +46,21 @@ class SingerDetail extends Component {
         return (
             <div>
                 <MusicList
-                    bg-image={this.state.bgImage}
+                    bgImage={this.state.bgImage}
                     title={this.state.title}
                     songs={this.state.songs}>
                 </MusicList>
-                {/* SingerDetail */}
             </div>
         );
     }
+}
+
+SingerDetail.propTypes = {
+    singer: PropTypes.object
+}
+
+SingerDetail.defaultProps = {
+    singer: null
 }
 
 const mapStateToProps = state => ({
