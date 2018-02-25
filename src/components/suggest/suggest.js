@@ -106,11 +106,15 @@ export default class Suggest extends Component {
                 beforeScroll={this.listScroll}
                 beforeScrollProp={this.state.beforeScroll}
             >
-                <ul class="suggest-list">
+                <ul className="suggest-list">
                     {
                         result.map((item,index) => (
                                 !(item.type&&index!==0)
-                                ? <li className="suggest-item" onClick={()=>this.selectItem(item)}>
+                                ? <li 
+                                    className="suggest-item"
+                                    onClick={()=>this.selectItem(item)}
+                                    key={index}
+                                >
                                     <div className="icon">
                                         <i className={this.getIconCls(item)}></i>
                                     </div>
