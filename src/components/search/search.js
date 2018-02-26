@@ -8,10 +8,14 @@ import { getHotKey } from 'api/search';
 import { ERR_OK } from 'api/config';
 import Suggest from 'components/suggest/suggest';
 import Scroll from 'base/scroll/scroll';
-// import SearchList from 'base/search-list/search-list';
+import SearchList from 'base/search-list/search-list';
 import Confirm from 'base/confirm/confirm';
+import { connect } from 'react-redux';
+import { handleSearchHistory } from '@/store/actions';
+import { saveSearch, clearSearch, deleteSearch } from 'common/js/cache';
+import { getSearchHistory } from '@/store/reducers';
 
-export default class Search extends Component {
+class Search extends Component {
     state = {
         query: '',
         hotKey: []
@@ -84,8 +88,8 @@ export default class Search extends Component {
                                                     }
                                                 </ul>
                                             </div>
-                                            {/* {
-                                                searchHistory.length
+                                            {
+                                                this.props.searchHistory.length
                                                 ? <div className="search-history">
                                                     <h1 className="title">
                                                         <span className="text">搜索历史</span>
@@ -94,14 +98,14 @@ export default class Search extends Component {
                                                         </span>
                                                     </h1>
                                                     <SearchList 
-                                                        // history={this.props.searchHistory}
-                                                        // select={this.addQuery}
+                                                        history={this.props.searchHistory}
+                                                        select={this.addQuery}
                                                         // delete={this.deleteSearchHistory}
                                                     >
                                                     </SearchList>
                                                 </div>
                                                 : ''
-                                            } */}
+                                            }
                                         </div>
                                     </Scroll>
                                 </div>
@@ -114,7 +118,7 @@ export default class Search extends Component {
                                         query={this.state.query}
                                         listScroll={this.blurInput}
                                         ref={suggest=>this.suggest=suggest}
-                                        // select={()=>this.saveSearchHistory(query)}
+                                        select={()=>this.props.saveSearchHistory(this.state.query)}
                                     >
                                     </Suggest>
                                 </div>
@@ -134,3 +138,17 @@ export default class Search extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    searchHistory: getSearchHistory(state)
+})
+
+const mapDispatchToProps =  {
+    saveSearchHistory: (query) => {
+        let searchHistory = saveSearch(query)
+        console.log(searchHistory)
+        handleSearchHistory(searchHistory)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)
