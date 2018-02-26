@@ -8,7 +8,7 @@ const initialState = {
 
 export const searchHistory = (state = initialState, action) => {
     switch(action.type) {
-        case types.SET_SINGER:
+        case types.SET_SEARCH_HISTORY:
             return {
                 ...state,
                 searchHistory: action.searchHistory
