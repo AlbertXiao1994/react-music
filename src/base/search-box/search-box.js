@@ -8,12 +8,17 @@ export default class SearchBox extends Component {
     state = {
         query: ''
     }
+    componentWillMount() {
+        this.fun = debounce((newVal) => {
+            this.props.queryChange(newVal)
+          }, 200)
+    }
     shouldComponentUpdate(nextProps, nextState) {
         if (nextState.query !== this.state.query) {
-            debounce(() => {
-                this.props.queryChange(nextState.query)
-              }, 200)()
-            // fun()
+            // debounce((newVal) => {
+            //     this.props.queryChange(newVal)
+            //   }, 200)
+            this.fun(nextState.query)
         }
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
