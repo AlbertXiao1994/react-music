@@ -7,7 +7,9 @@ export default class Scroll extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             setTimeout(() => {
-                this._initScroll()
+                if (!this.scroll) {
+                    this._initScroll()
+                }
                 this.refresh()
               }, this.props.refreshDelay)
         }
