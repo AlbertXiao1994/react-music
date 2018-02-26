@@ -78,7 +78,8 @@ Scroll.propTypes = {
     refreshDelay: PropTypes.number,
     listenScroll: PropTypes.bool,
     pullup: PropTypes.bool,
-    beforeScrollProp: PropTypes.bool
+    beforeScrollProp: PropTypes.bool,
+    style: PropTypes.object
 };
 
 Scroll.defaultProps = {
@@ -88,5 +89,6 @@ Scroll.defaultProps = {
     refreshDelay: 20,
     listenScroll: false,
     pullup: false,
-    beforeScrollProp: false
+    beforeScrollProp: false,
+    style: {}
 }
