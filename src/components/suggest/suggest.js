@@ -21,18 +21,36 @@ export default class Suggest extends Component {
         pullup: true,
         beforeScroll: true
     };
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.query !== this.props.query) {
+            const newQuery = nextProps.query
+            this.setState({
+                result: [],
+                pageNum: 1,
+                hasMore: true
+            })
+            this.scroll.scrollTo(0, 0)
+            if (!newQuery) {
+                return;
+            }
+            this.search(newQuery)
+        }
+    }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    search(query) {
+    search = (query) => {
         getSearch(query, PER_PAGE, this.state.pageNum, this.props.showSinger).then((res) => {
-          if (res.code === ERR_OK) {
-            this.setState({result: this.result.concat(this._normalize(res.data))})
-            this._checkMore(res.data)
-          }
+            if (res.code === ERR_OK) {
+                this.setState((prevState, props) => ({
+                    result: prevState.result.concat(this._normalize(res.data))
+                }));
+                this._checkMore(res.data)
+            }
         })
     }
-    searchMore() {
+    searchMore = () => {
+        console.log('ok')
         if (!this.state.hasMore) {
           return;
         }
@@ -41,24 +59,24 @@ export default class Suggest extends Component {
         }));
         this.search(this.props.query)
     }
-    getIconCls(item) {
+    getIconCls = (item) => {
         if (item.type === TYPE_SINGER) {
           return 'icon-mine';
         } else {
           return 'icon-music';
         }
     }
-    getText(item) {
+    getText = (item) => {
         if (item.type === TYPE_SINGER) {
           return {__html:item.singername};
         } else {
           return {__html:`${item.name}-${item.singer}`};
         }
     }
-    listScroll() {
+    listScroll = () => {
         this.props.listScroll()
     }
-    selectItem(item) {
+    selectItem = (item) => {
         if (item.type === TYPE_SINGER) {
           let singer = new Singer({
             id: item.singermid,
@@ -71,16 +89,16 @@ export default class Suggest extends Component {
         }
         this.props.select(item)
     }
-    refresh() {
+    refresh = () => {
         this.scroll.refresh()
     }
-    _checkMore(data) {
+    _checkMore = (data) => {
         const song = data.song
         if (!song.list.length || (song.curnum * song.curpage) >= song.totalnum) {
           this.setState({hasMore: false})
         }
     }
-    _normalize(data) {
+    _normalize = (data) => {
         let ret = []
         if (data.zhida && data.zhida.singerid) {
           ret.push({...data.zhida, ...{type: TYPE_SINGER}})
