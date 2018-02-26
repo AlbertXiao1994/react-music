@@ -22,7 +22,10 @@ export default class SearchBox extends Component {
     clear = () => {
         this.setState({query: ''})
     }
-    setQuery = (e) => {
+    setQuery = (newVal) => {
+        this.setState({query: newVal})
+    }
+    handleInput = (e) => {
         this.setState({query: e.target.value})
     }
     blur = () => {
@@ -37,7 +40,7 @@ export default class SearchBox extends Component {
                     className="box"
                     value={this.state.query}
                     placeholder={this.props.placeholder}
-                    onChange={this.setQuery}
+                    onChange={this.handleInput}
                 />
                 {
                     this.state.query
