@@ -18,6 +18,12 @@ export default class Scroll extends Component {
     scrollToElement() {
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     }
+    refresh = () => {
+        this.scroll && this.scroll.refresh()
+    }
+    scrollTo() {
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+    }
     _initScroll = () => {
         if (!this.wrapper) {
           return
@@ -49,9 +55,6 @@ export default class Scroll extends Component {
                 _this.props.beforeScroll()
             })
         }
-    }
-    refresh = () => {
-        this.scroll && this.scroll.refresh()
     }
     render() {
         return (
