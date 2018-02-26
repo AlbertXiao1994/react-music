@@ -1,4 +1,5 @@
 import * as types from './action-types';
+import { saveSearch, clearSearch, deleteSearch } from 'common/js/cache';
 
 const receiveSinger = (singer) => {
     return {
@@ -18,7 +19,18 @@ export const setSinger = (singer) => dispatch => {
     dispatch(receiveSinger(singer))
 }
 
-export const handleSearchHistory = (searchHistory) => dispatch => {
+export const saveSearchHistory = (query) => dispatch => {
+    let searchHistory = saveSearch(query)
+    dispatch(receiveSearchHistory(searchHistory))
+}
+
+export const clearSearchHistory = (query) => dispatch => {
+    let searchHistory = clearSearch(query)
+    dispatch(receiveSearchHistory(searchHistory))
+}
+
+export const deleteSearchHistory = (query) => dispatch => {
+    let searchHistory = deleteSearch(query)
     dispatch(receiveSearchHistory(searchHistory))
 }
 
