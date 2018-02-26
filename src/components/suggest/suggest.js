@@ -9,17 +9,22 @@ import Loading from 'base/loading/loading';
 import NoResult from 'base/no-result/no-result';
 import Singer from 'common/js/singer';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setSinger } from '@/store/actions';
 
 const PER_PAGE = 20;
 const TYPE_SINGER = 'singer';
 
-export default class Suggest extends Component {
+class Suggest extends Component {
     state = {
         pageNum: 1,
         result: [],
         hasMore: true,
         pullup: true,
         beforeScroll: true
+    };
+    static contextTypes = {
+        router: PropTypes.object.isRequired
     };
     componentWillReceiveProps(nextProps) {
         if (nextProps.query !== this.props.query) {
@@ -82,8 +87,8 @@ export default class Suggest extends Component {
             id: item.singermid,
             name: item.singername
           })
-          this.props.history.push( `/search/${singer.id}`)
-          this.setSinger(singer)
+          this.context.router.history.push( `/search/${singer.id}`)
+          this.props.setSinger(singer)
         } else {
         //   this.insertSong(item)
         }
@@ -167,3 +172,11 @@ Suggest.defaultProps = {
     query: '',
     showSinger: true
 };
+
+const mapStateToProps = () => ({})
+
+const mapDispatchToProps =  {
+    setSinger
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Suggest)
