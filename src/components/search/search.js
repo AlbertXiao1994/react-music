@@ -23,9 +23,9 @@ class Search extends Component {
         this._getHotKeys()
     }
     shouldComponentUpdate(nextProps, nextState) {
-        // if (nextState.hotKey !== this.state.hotKey) {
-        //     this.setState({shortcut: nextState.hotKey.concat(this.props.searchHistory)})
-        // }
+        if (nextState.hotKey !== this.state.hotKey) {
+            this.setState({shortcut: nextState.hotKey.concat(this.props.searchHistory)})
+        }
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     confirmClear = () => {
@@ -68,7 +68,7 @@ class Search extends Component {
                                     <Scroll
                                         className="shortcut"
                                         ref={shortcut=>this.shortcut=shortcut}
-                                        // data={this.state.shortcut}
+                                        data={this.state.shortcut}
                                     >
                                         <div>
                                             <div className="hot-key">
