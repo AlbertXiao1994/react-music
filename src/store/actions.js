@@ -7,7 +7,7 @@ const receiveSinger = (singer) => {
     }
 }
 
-export const handleSearchHistory = (searchHistory) => {
+const receiveSearchHistory = (searchHistory) => {
     return {
         type: types.SET_SEARCH_HISTORY,
         searchHistory
@@ -16,5 +16,9 @@ export const handleSearchHistory = (searchHistory) => {
 
 export const setSinger = (singer) => dispatch => {
     dispatch(receiveSinger(singer))
+}
+
+export const handleSearchHistory = (searchHistory) => dispatch => {
+    dispatch(receiveSearchHistory(searchHistory))
 }
 
