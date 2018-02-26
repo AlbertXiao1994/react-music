@@ -24,8 +24,8 @@ export const saveSearchHistory = (query) => dispatch => {
     dispatch(receiveSearchHistory(searchHistory))
 }
 
-export const clearSearchHistory = (query) => dispatch => {
-    let searchHistory = clearSearch(query)
+export const clearSearchHistory = () => dispatch => {
+    let searchHistory = clearSearch()
     dispatch(receiveSearchHistory(searchHistory))
 }
 
