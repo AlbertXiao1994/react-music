@@ -1,16 +1,21 @@
 import { combineReducers } from 'redux';
-import { setSinger } from './list';
-import * as history from './history';
+import { singer } from './list';
+import { history } from './history';
 import * as player from './player';
 import * as fromList from './list';
+import * as fromHistory from './list';
 
 export default combineReducers({
-    setSinger,
+    singer,
     // list,
-    ...history,
+    history,
     ...player
 })
 
 export const getSinger = (state) => {
-    return fromList.getSinger(state.setSinger)
+    return fromList.getSinger(state.singer)
+}
+
+export const getsearchHistory = (state) => {
+    return fromHistory.getsearchHistory(state.history)
 }
