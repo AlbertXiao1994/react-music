@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { is, fromJS } from 'immutable';
 import './confirm.less';
+import PropTypes from 'prop-types';
 
 export default class Confirm extends Component {
     state = {
@@ -9,16 +10,16 @@ export default class Confirm extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    show() {
+    show = () => {
         this.setState({confirmShow: true})
     }
-    hide() {
+    hide = () => {
         this.setState({confirmShow: false})
     }
-    cancel() {
+    cancel = () => {
         this.hide()
     }
-    confirm() {
+    confirm = () => {
         this.props.confirm()
         this.hide()
     }
@@ -35,7 +36,7 @@ export default class Confirm extends Component {
                         <div className="confirm-content">
                         <p className="text">{this.props.text}</p>
                         <div className="operate">
-                            <div className="operate-btn left" onClick={this.cancel}>{this.props.cancelBtnTex}}</div>
+                            <div className="operate-btn left" onClick={this.cancel}>{this.props.cancelBtnText}</div>
                             <div className="operate-btn" onClick={this.confirm}>{this.props.confirmBtnText}</div>
                         </div>
                         </div>
@@ -46,4 +47,16 @@ export default class Confirm extends Component {
             </div>
         );
     }
+}
+
+Confirm.propTypes = {
+    text: PropTypes.string,
+    cancelBtnTex: PropTypes.string,
+    confirmBtnText: PropTypes.string
+};
+
+Confirm.defaultProps = {
+    text: '',
+    cancelBtnText: '取消',
+    confirmBtnText: '确定'
 }
