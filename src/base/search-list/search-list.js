@@ -7,10 +7,10 @@ export default class SearchList extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    selectItem(item) {
+    selectItem = (item) => {
         this.props.select(item)
     }
-    deleteIteme(e, item) {
+    deleteItem = (e, item) => {
         e.stopPropagation();
         this.props.delete(item)
     }
