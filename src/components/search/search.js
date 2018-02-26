@@ -11,8 +11,7 @@ import Scroll from 'base/scroll/scroll';
 import SearchList from 'base/search-list/search-list';
 import Confirm from 'base/confirm/confirm';
 import { connect } from 'react-redux';
-import { saveSearchHistory } from '@/store/actions';
-// import { saveSearch, clearSearch, deleteSearch } from 'common/js/cache';
+import { saveSearchHistory, clearSearchHistory, deleteSearchHistory } from '@/store/actions';
 import { getSearchHistory } from '@/store/reducers';
 
 class Search extends Component {
@@ -100,7 +99,7 @@ class Search extends Component {
                                                     <SearchList 
                                                         history={this.props.searchHistory}
                                                         select={this.addQuery}
-                                                        // delete={this.deleteSearchHistory}
+                                                        delete={this.props.deleteSearchHistory}
                                                     >
                                                     </SearchList>
                                                 </div>
@@ -128,7 +127,7 @@ class Search extends Component {
                                 text="确认清空所有搜索历史"
                                 confirmBtnText="清空"
                                 ref={confirm=>this.confirm=confirm}
-                                // confirm={this.props.clearSearchHistory}
+                                confirm={this.props.clearSearchHistory}
                             >
                             </Confirm>
                         </div>
@@ -144,7 +143,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps =  {
-    saveSearchHistory
+    saveSearchHistory,
+    clearSearchHistory,
+    deleteSearchHistory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)
