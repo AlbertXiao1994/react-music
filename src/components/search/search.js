@@ -29,8 +29,13 @@ export default class Search extends Component {
         this.confirm.show()
     }
     onQueryChange = (newVal) => {
-        console.log(newVal)
         this.setState({query: newVal})
+    }
+    addQuery = (key) => {
+        this.searchBox.setQuery(key)
+    }
+    blurInput = () => {
+        this.searchBox.blur()
     }
     _getHotKeys = () => {
         getHotKey().then((res) => {
