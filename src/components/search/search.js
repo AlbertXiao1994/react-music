@@ -11,8 +11,8 @@ import Scroll from 'base/scroll/scroll';
 import SearchList from 'base/search-list/search-list';
 import Confirm from 'base/confirm/confirm';
 import { connect } from 'react-redux';
-import { handleSearchHistory } from '@/store/actions';
-import { saveSearch, clearSearch, deleteSearch } from 'common/js/cache';
+import { saveSearchHistory } from '@/store/actions';
+// import { saveSearch, clearSearch, deleteSearch } from 'common/js/cache';
 import { getSearchHistory } from '@/store/reducers';
 
 class Search extends Component {
@@ -65,7 +65,7 @@ class Search extends Component {
                             </div>
                             {
                                 !this.state.query
-                                ? <div className="shortcut-wrapper" v-show="!query" ref="shortcutWrapper">
+                                ? <div className="shortcut-wrapper" ref={shortcutWrapper=>this.shortcutWrapper=shortcutWrapper}>
                                     <Scroll
                                         className="shortcut"
                                         ref={shortcut=>this.shortcut=shortcut}
@@ -144,11 +144,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps =  {
-    saveSearchHistory: (query) => {
-        let searchHistory = saveSearch(query)
-        console.log(searchHistory)
-        handleSearchHistory(searchHistory)
-    }
+    saveSearchHistory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)
