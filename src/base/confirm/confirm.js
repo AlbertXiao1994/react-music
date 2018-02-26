@@ -16,7 +16,6 @@ export default class Confirm extends Component {
         this.setState({confirmShow: false})
     }
     cancel() {
-        this.props.cancel()
         this.hide()
     }
     confirm() {
