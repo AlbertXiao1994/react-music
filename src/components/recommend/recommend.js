@@ -55,62 +55,62 @@ class Recommend extends Component {
     return (
       <div className="recommend">
         <Route path={`${this.props.match.url}/:id`} component={Disc} />
-            <Route
-              exact
-              path={this.props.match.url}
-              render={() => 
-                <Scroll
-                  className="recommend-content"
-                  ref={(scroll) => {this.scroll = scroll}}
-                  data={this.state.discList}
-                >
-                  <div>
-                    <div className="slider-wrapper">
-                      <Slider>
-                        {
-                          this.state.recommends.map((item, index) => 
-                            <div key={index}>
-                              <a href={item.linkUrl}>
-                                <img src={item.picUrl} className="needsClick" alt="" />
-                              </a>
-                            </div>
-                          )
-                        }
-                      </Slider>
-                    </div>
-                    <div className="recommend-list">
-                      <h1 className="list-title">热门歌单推荐</h1>
-                      <ul>
-                          {
-                            this.state.discList.map((item, index) => 
-                              <li 
-                                className="item"
-                                key={index}
-                                onClick={()=>this.selectItem(item)}
-                              >
-                                <div className="icon">
-                                  <img width="60" height="60" src={item.imgurl} alt={index} />
-                                </div>
-                                <div className="text">
-                                  <h2 className="title">{item.dissname}</h2>
-                                  <p className="creator">{item.creator.name}</p>
-                                </div>
-                              </li>
-                            )
-                          }
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="loading-container">
+        <Route
+          exact
+          path={this.props.match.url}
+          render={() => 
+            <Scroll
+              className="recommend-content"
+              ref={(scroll) => {this.scroll = scroll}}
+              data={this.state.discList}
+            >
+              <div>
+                <div className="slider-wrapper">
+                  <Slider>
+                    {
+                      this.state.recommends.map((item, index) => 
+                        <div key={index}>
+                          <a href={item.linkUrl}>
+                            <img src={item.picUrl} className="needsClick" alt="" />
+                          </a>
+                        </div>
+                      )
+                    }
+                  </Slider>
+                </div>
+                <div className="recommend-list">
+                  <h1 className="list-title">热门歌单推荐</h1>
+                  <ul>
                       {
-                          !this.state.discList.length
-                          ? <Loading />
-                          : ''
+                        this.state.discList.map((item, index) => 
+                          <li 
+                            className="item"
+                            key={index}
+                            onClick={()=>this.selectItem(item)}
+                          >
+                            <div className="icon">
+                              <img width="60" height="60" src={item.imgurl} alt={index} />
+                            </div>
+                            <div className="text">
+                              <h2 className="title">{item.dissname}</h2>
+                              <p className="creator">{item.creator.name}</p>
+                            </div>
+                          </li>
+                        )
                       }
-                  </div>
-                </Scroll>
-              }
-            />
+                  </ul>
+                </div>
+              </div>
+              <div className="loading-container">
+                  {
+                      !this.state.discList.length
+                      ? <Loading />
+                      : ''
+                  }
+              </div>
+            </Scroll>
+          }
+        />
       </div>
     );
   }
