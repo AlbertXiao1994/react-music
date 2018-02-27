@@ -26,6 +26,32 @@ export default class AddSong extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
+    show() {
+        this.showFlag = true
+        setTimeout(() => {
+          if (this.currentIndex === 0) {
+            this.$refs.songList.refresh()
+          } else {
+            this.$refs.searchList.refresh()
+          }
+        }, 20)
+    }
+    hide = () => {
+        this.setState({showFlag: false})
+    }
+    toggleIndex = (index) => {
+        this.setState({currentIndex: index})
+    }
+    selectFromSuggest = (song) => {
+        this.topTip.show()
+        this.props.saveSearchHistory(this.state.query)
+    }
+    selectFromPlay = (song, index) => {
+        if (index !== 0) {
+          this.props.insertSong(new Song(song))
+          this.topTip.show()
+        }
+    }
     onQueryChange = (newVal) => {
         this.setState({query: newVal})
     }
