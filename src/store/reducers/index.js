@@ -19,3 +19,11 @@ export const getSinger = (state) => {
 export const getSearchHistory = (state) => {
     return fromHistory.getSearchHistory(state.history)
 }
+
+export const getFavoriteList = (state) => {
+    return fromHistory.getFavoriteList(state.history)
+}
+
+export const getPlayHistory = (state) => {
+    return fromHistory.getPlayHistory(state.history)
+}
