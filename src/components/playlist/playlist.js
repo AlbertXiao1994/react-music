@@ -5,6 +5,7 @@ import Scroll from 'base/scroll/scroll';
 import Confirm from 'base/confirm/confirm';
 import { playMode } from 'common/js/config';
 import AddSong from 'components/add-song/add-song';
+import Song from 'common/js/song';
 
 export default class PlayList extends Component {
     state = {
@@ -12,6 +13,47 @@ export default class PlayList extends Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
+    show = () => {
+        this.setState({showFlag: true})
+        setTimeout(() => {
+          this.listContent.refresh()
+          this.scrollTocurrent(this.props.currentSong)
+        }, 20)
+    }
+    hide() {
+        this.setState({showFlag: false})
+    }
+    scrollTocurrent = (song) => {
+        let index = this.sequenceList.findIndex((item) => {
+          return item.id === song.id
+        })
+        this.listContent.scrollToElement(this.list.props.children[index], 300)
+    }
+    deleteOne = (song) => {
+        this.props.deleteSong(song)
+        if (!this.props.sequenceList.length) {
+          this.hide()
+        }
+    }
+    clearAll = () => {
+        this.confirm.show()
+    }
+    selectItem = (song, index) => {
+        if (this.props.mode === playMode.random) {
+          index = this.props.playList.findIndex((item) => {
+            return item.id === song.id
+          })
+        }
+        this.props.setCurrentIndex(index)
+        this.props.setPlayingState(true)
+    }
+    onConfirm = () => {
+        this.props.clearSong()
+        this.hide()
+    }
+    addSong() {
+        this.addSong.show()
     }
     getCurrentPlay = (song) => {
         if (song.id === this.currentSong.id) {
@@ -51,6 +93,10 @@ export default class PlayList extends Component {
           this.hide()
         }
     }
+    handleToggleFav = (e, song) => {
+        e.stopPropagation();
+        this.props.toggleFavorite(song)
+    }
     render() {
         const modeText = this.props.mode === playMode.sequence 
                          ? '顺序播放'
@@ -82,7 +128,7 @@ export default class PlayList extends Component {
                                     <li key={song.id} className="item" onClick={()=>this.selectItem(song, index)}>
                                         <i className={()=>this.getCurrentPlay(song)}></i>
                                         <span className="text" dangerouslySetInnerHTML={song.name}></span>
-                                        <span className="like" onClick={(e)=>{e.stopPropagation;this.toggleFavorite(song)}}>
+                                        <span className="like" onClick={(e)=>{this.handleToggleFav(e, song)}}>
                                             <i className={()=>this.getFavoriteIcon(song)}></i>
                                         </span>
                                         <span className="delete" onClick={(e)=>this.deleteOne(e, song)}>
