@@ -5,21 +5,29 @@ import { createSong } from 'common/js/song';
 import MusicList from 'components/music-list/music-list';
 import { getClassifiedTop } from 'api/rank';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getTopList } from '@/store/reducers';
 
-export default class TopList extends Component {
+class TopList extends Component {
     state = {
-        bgImage: '',
-        title: '',
         songs: [],
-        rank: true
+        rank: true,
+        bgImage: ''
     };
     static contextTypes = {
         router: PropTypes.object.isRequired
     };
     componentWillMount() {
-        this._getClassifiedTop() 
+        this.rank = true
+    }
+    componentDidMount() {
+        this._getClassifiedTop()
     }
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.songs !== this.state.songs) {
+            let songs = nextState.songs;
+            this.setState({bgImage: songs[0].image})
+        }
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     _getClassifiedTop = () => {
@@ -44,17 +52,24 @@ export default class TopList extends Component {
         return ret;
     }
     render() {
-        const { bgImage, title, songs, rank } = this.state;
+        const { songs, bgImage } = this.state;
+        const { topList } = this.props;
         return (
             <div name="slide">
                 <MusicList 
                     bgImage={bgImage}
-                    title={title}
+                    title={topList.title}
                     songs={songs}
-                    rank={rank}
+                    rank={this.rank}
                 >
                 </MusicList>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    topList: getTopList(state)
+})
+
+export default connect(mapStateToProps)(TopList)
