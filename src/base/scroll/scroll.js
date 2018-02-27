@@ -4,12 +4,14 @@ import BScroll from 'better-scroll';
 import { is, fromJS } from 'immutable';
 
 export default class Scroll extends Component {
+    componentDidMount() {
+        setTimeout(() => {
+            this._initScroll()
+          }, 20)
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             setTimeout(() => {
-                if (!this.scroll) {
-                    this._initScroll()
-                }
                 this.refresh()
               }, this.props.refreshDelay)
         }
