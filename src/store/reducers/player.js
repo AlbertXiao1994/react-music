@@ -14,10 +14,7 @@ const initialState = {
 export const playState = (state = initialState.playState, action) => {
     switch(action.type) {
         case types.SET_PLAY_STATE:
-            return {
-                ...state,
-                ...action.playState
-            };
+            return action.playState;
         default: 
             return state;
     }
@@ -26,10 +23,7 @@ export const playState = (state = initialState.playState, action) => {
 export const fullScreen = (state = initialState.fullScreen, action) => {
     switch(action.type) {
         case types.SET_FULL_SCREEN:
-            return {
-                ...state,
-                ...action.fullScreen
-            };
+            return action.fullScreen;
         default: 
             return state;
     }
@@ -38,10 +32,10 @@ export const fullScreen = (state = initialState.fullScreen, action) => {
 export const playList = (state = initialState.playList, action) => {
     switch(action.type) {
         case types.SET_PLAY_LIST:
-            return {
+            return [
                 ...state,
                 ...action.playList
-            };
+            ];
         default: 
             return state;
     }
@@ -50,10 +44,10 @@ export const playList = (state = initialState.playList, action) => {
 export const sequenceList = (state = initialState.sequenceList, action) => {
     switch(action.type) {
         case types.SET_SEQUENCE_LIST:
-            return {
+            return [
                 ...state,
                 ...action.sequenceList
-            };
+            ];
         default: 
             return state;
     }
@@ -62,10 +56,7 @@ export const sequenceList = (state = initialState.sequenceList, action) => {
 export const playMode = (state = initialState.playMode, action) => {
     switch(action.type) {
         case types.SET_PLAY_MODE:
-            return {
-                ...state,
-                ...action.playMode
-            };
+            return action.playMode;
         default: 
             return state;
     }
@@ -74,10 +65,7 @@ export const playMode = (state = initialState.playMode, action) => {
 export const currentIndex = (state = initialState.currentIndex, action) => {
     switch(action.type) {
         case types.SET_CURRENT_INDEX:
-            return {
-                ...state,
-                ...action.currentIndex
-            };
+            return action.currentIndex;
         default: 
             return state;
     }
