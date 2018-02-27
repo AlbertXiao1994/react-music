@@ -16,11 +16,11 @@ export const getSinger = (state) => {
 }
 
 export const getDisc = (state) => {
-    return fromHistory.getDisc(state.list)
+    return fromList.getDisc(state.list)
 }
 
 export const getTopList = (state) => {
-    return fromHistory.getTopList(state.list)
+    return fromList.getTopList(state.list)
 }
 
 export const getSearchHistory = (state) => {

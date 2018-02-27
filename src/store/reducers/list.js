@@ -24,7 +24,7 @@ export const topList = (state = initialState.topList, action) => {
         case types.SET_TOP_LIST:
             return {
                 ...state,
-                topList: action.topList
+                ...action.topList
             };
         default: 
             return state;
@@ -36,7 +36,7 @@ export const disc = (state = initialState.disc, action) => {
         case types.SET_DISC:
             return {
                 ...state,
-                disc: action.disc
+                ...action.disc
             };
         default: 
             return state;
