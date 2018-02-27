@@ -13,7 +13,8 @@ const transform = prefixStyle('transform');
 export default class MusicList extends Component {
     state = {
         scrollY: 0,
-        scrollStyle: {}
+        scrollStyle: {},
+        bgStyle: {}
     };
     static contextTypes = {
         router: PropTypes.object.isRequired
@@ -21,14 +22,25 @@ export default class MusicList extends Component {
     componentWillMount() {
         this.probeType = 3
         this.listenScroll = true
-        this.bgStyle = {
-            backgroundImage:`url(${this.props.bgImage})`
-        }
+        this.setState({
+            bgStyle: {
+                backgroundImage:`url(${this.props.bgImage})`
+            }
+        })
     }
     componentDidMount() {
         this.imageHeight = this.bgImage.clientHeight
         this.maxTranslateY = -this.imageHeight + RESERVED_HEIGHT
         this.setState({scrollStyle: {top:`${this.imageHeight}px`}})
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.bgImage !== this.props.bgImage) {
+            this.setState({
+                bgStyle: {
+                    backgroundImage:`url(${nextProps.bgImage})`
+                }
+            })
+        }
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
@@ -88,7 +100,7 @@ export default class MusicList extends Component {
                     <i className="icon-back"></i>
                 </div>
                 <h1 className="title">{this.props.title}</h1>
-                <div className="bg-image" style={this.bgStyle} ref={bgImage => this.bgImage = bgImage}>
+                <div className="bg-image" style={this.state.bgStyle} ref={bgImage => this.bgImage = bgImage}>
                     <div className="filter"></div>
                     <div className="play-wrapper">
                     {
