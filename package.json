@@ -5,10 +5,13 @@
   "dependencies": {
     "axios": "^0.17.1",
     "better-scroll": "^1.8.1",
+    "create-keyframe-animation": "^0.1.0",
     "fastclick": "^1.0.6",
     "good-storage": "^1.0.1",
     "immutable": "^3.8.2",
+    "js-base64": "^2.4.3",
     "jsonp": "^0.2.1",
+    "lyric-parser": "^1.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
