@@ -11,11 +11,18 @@ import Lyric from 'lyric-parser';
 import PlayList from 'components/playlist/playlist';
 import { playMode } from 'common/js/config';
 import './player.less';
+import { connect } from 'react-redux';
+import { getFullScreen, getPlayState, getCurrentIndex } from '@/store/reducers';
+import { getPlayList, getCurrentSong, getPlayMode } from '@/store/reducers';
+import { getSequenceList, getFavoriteList } from '@/store/reducers';
+import { setFullScreen, savePlayHistory, setPlayMode} from '@/store/actions';
+import { setPlayList, setCurrentIndex, setPlayState } from '@/store/actions';
+import { saveFavoriteList, deleteFavoriteList } from '@/store/actions';
 
 const transform = prefixStyle('transform');
 const transitionDuration = prefixStyle('transformDuration');
 
-export default class Player extends Component {
+class Player extends Component {
     state = {
         songUrl: '',
         readyFlag: false,
@@ -85,7 +92,7 @@ export default class Player extends Component {
           if (index === this.props.playList.length) {
             index = 0
           }
-          if (!this.props.playing) {
+          if (!this.props.playState) {
             this.togglePlay()
           }
           this.props.setCurrentIndex(index)
@@ -104,7 +111,7 @@ export default class Player extends Component {
           if (index === -1) {
             index = this.props.playList.length - 1
           }
-          if (!this.props.playing) {
+          if (!this.props.playState) {
             this.togglePlay()
           }
           this.props.setCurrentIndex(index)
@@ -119,7 +126,7 @@ export default class Player extends Component {
         this.setState({readyFlag: true})
     }
     end = () => {
-        if (this.props.mode === playMode.loop) {
+        if (this.props.playMode === playMode.loop) {
           this.loop()
         } else {
           this.next()
@@ -140,7 +147,7 @@ export default class Player extends Component {
         if (!this.state.readyFlag) {
           return;
         }
-        this.props.setPlayingState(!this.props.playing)
+        this.props.setPlayState(!this.props.playState)
         if (this.state.currentLyric) {
           this.state.currentLyric.togglePlay()
         }
@@ -167,7 +174,7 @@ export default class Player extends Component {
     onchangePercent = (percent) => {
         let currentTime = this.props.currentSong.duration * percent
         this.audio.currentTime = currentTime
-        if (!this.playing) {
+        if (!this.props.playState) {
           this.togglePlay()
         }
         this.state.currentLyric.seek(currentTime * 1000)
@@ -178,7 +185,7 @@ export default class Player extends Component {
             return;
           }
           this.setState({currentLyric: new Lyric(lyric, this.handleLyric)})
-          if (this.props.playing) {
+          if (this.props.playState) {
             this.state.currentLyric.play()
           }
         }).catch(() => {
@@ -284,7 +291,7 @@ export default class Player extends Component {
         };
     }
     render() {
-        const { playList, fullScreen, currentSong, playing } = this.props;
+        const { playList, fullScreen, currentSong, playState } = this.props;
         const { playingLyric, currentLyric, percent, modeIcon } = this.state;
         const { readyFlag, playIcon, songUrl, currentLineNum } = this.state;
         const { currentTime, currentShow, scrollStyle } = this.state;
@@ -293,12 +300,7 @@ export default class Player extends Component {
                 {
                     playList.length>0
                     ? <div className="player">
-                        <div name="normal"
-                            enter={this.enter}
-                            afterEnter={this.afterEnter}
-                            leave={this.leave}
-                            afterLeave={this.afterLeave}
-                        >
+                        <div name="normal">
                         {
                             fullScreen
                             ? <div className="normal-player">
@@ -306,20 +308,20 @@ export default class Player extends Component {
                                     <img width="100%" height="100%" src={currentSong.image} alt="" />
                                 </div>
                                 <div className="top">
-                                    <div className="back" oncClick={this.back}>
+                                    <div className="back" onClick={this.back}>
                                         <i className="icon-back"></i>
                                     </div>
-                                    <h1 className="title" dangerouslySetInnerHTML={currentSong.name}></h1>
-                                    <h2 className="subtitle" dangerouslySetInnerHTML={currentSong.singer}></h2>
+                                    <h1 className="title" dangerouslySetInnerHTML={{__html:`${currentSong.name}`}}></h1>
+                                    <h2 className="subtitle" dangerouslySetInnerHTML={{__html:`${currentSong.singer}`}}></h2>
                                 </div>
                                 <div className="middle"
-                                    onTouchstart="middleTouchStart"
-                                    onTouchmove="middleTouchMove"
-                                    onTouchend="middleTouchEnd"
+                                    onTouchStart={this.middleTouchStart}
+                                    onTouchMove={this.middleTouchMove}
+                                    onTouchEnd={this.middleTouchEnd}
                                 >
                                     <div className="middle-l" ref={middleL=>this.middleL=middleL}>
                                         <div className="cd-wrapper" ref={cdWrapper=>this.cdWrapper=cdWrapper}>
-                                            <div className={playing?"cd play":"cd play pause"}>
+                                            <div className={playState?"cd play":"cd play pause"}>
                                                 <img className="image" src={currentSong.image} alt="" />
                                             </div>
                                         </div>
@@ -358,11 +360,11 @@ export default class Player extends Component {
                                         <span className={currentShow==='lyric'?"dot active":"dot"}></span>
                                     </div>
                                     <div className="progress-wrapper">
-                                        <span className="time time-l">{()=>this.formatTime(currentTime)}</span>
+                                        <span className="time time-l">{this.formatTime(currentTime)}</span>
                                         <div className="progress-bar-wrapper">
                                             <ProgressBar percent={percent} changePercent={this.onchangePercent}></ProgressBar>
                                         </div>
-                                        <span className="time time-r">{()=>this.formatTime(currentSong.duration)}</span>
+                                        <span className="time time-r">{this.formatTime(currentSong.duration)}</span>
                                     </div>
                                     <div className="operators">
                                         <div className="icon i-left" onClick={this.toggleMode}>
@@ -378,7 +380,7 @@ export default class Player extends Component {
                                             <i className="icon-next" onClick={this.next}></i>
                                         </div>
                                         <div className="icon i-right">
-                                            <i className={()=>this.getFavoriteIcon(currentSong)} onClick={()=>this.toggleFavorite(currentSong)}></i>
+                                            <i className={this.getFavoriteIcon(currentSong)} onClick={()=>this.toggleFavorite(currentSong)}></i>
                                         </div>
                                     </div>
                                 </div>
@@ -395,7 +397,7 @@ export default class Player extends Component {
                                         width="40"
                                         height="40"
                                         src={currentSong.image}
-                                        className={playing?"play":"play pause"}
+                                        className={playState?"play":"play pause"}
                                         alt=""
                                     />
                                 </div>
@@ -405,7 +407,7 @@ export default class Player extends Component {
                                 </div>
                                 <div className="control">
                                     <ProgressCircle radius={this.radius} percent={percent}>
-                                        <i className={playing?"icon-mini icon-pause-mini":"icon-mini icon-play-mini"} onClick={this.togglePlay}></i>
+                                        <i className={playState?"icon-mini icon-pause-mini":"icon-mini icon-play-mini"} onClick={this.togglePlay}></i>
                                     </ProgressCircle>
                                 </div>
                                 <div className="control" onClick={this.openPlayList}>
@@ -415,7 +417,7 @@ export default class Player extends Component {
                             : ''
                         }
                         </div>
-                        <PlayList ref={playList=>this.playList} />
+                        <PlayList ref={playList=>this.playList=playList} />
                         <audio src={songUrl} ref={audio=>this.audio=audio} onPlay={this.ready} onError={this.error} onTimeUpdate={this.updateTime} onEnded={this.end}></audio>
                       </div>
                     : ''
@@ -424,3 +426,27 @@ export default class Player extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    fullScreen: getFullScreen(state),
+    playState: getPlayState(state),
+    currentIndex: getCurrentIndex(state),
+    playList: getPlayList(state),
+    currentSong: getCurrentSong(state),
+    playMode: getPlayMode(state),
+    sequenceList: getSequenceList(state),
+    favoriteList: getFavoriteList(state)
+})
+
+const mapDispatchToProps =  {
+    setFullScreen,
+    savePlayHistory,
+    setPlayMode,
+    setPlayList,
+    setCurrentIndex,
+    setPlayState,
+    saveFavoriteList,
+    deleteFavoriteList
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)
