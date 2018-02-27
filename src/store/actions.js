@@ -30,6 +30,20 @@ const receiveFavoriteList = (favoriteList) => {
     }
 }
 
+const receiveDisc = (disc) => {
+    return {
+        type: types.SET_DISC,
+        disc
+    }
+}
+
+const receiveTopList = (topList) => {
+    return {
+        type: types.TOP_LIST,
+        topList
+    }
+}
+
 export const setSinger = (singer) => dispatch => {
     dispatch(receiveSinger(singer))
 }
@@ -62,5 +76,13 @@ export const savePlayHistory = (song) => dispatch => {
 export const deleteFavoriteList = (song) => dispatch => {
     let favoriteList = deleteFavorite(song)
     dispatch(receiveFavoriteList(favoriteList))
+}
+
+export const setDisc = (disc) => dispatch => {
+    dispatch(receiveDisc(disc))
+}
+
+export const setTopList = (topList) => dispatch => {
+    dispatch(receiveTopList(topList))
 }
 
