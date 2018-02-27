@@ -6,6 +6,7 @@ import Rank from 'components/rank/rank';
 import Search from 'components/search/search';
 import MHeader from 'components/m-header/m-header';
 import Tab from 'components/tab/tab';
+import Player from 'components/player/player'
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
             <Route path="/rank" component={Rank} />
             <Route path="/search" component={Search} />
           </Switch>
+          <Player />
         </div>
     </Router>
     );
