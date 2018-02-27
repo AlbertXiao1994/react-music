@@ -58,7 +58,7 @@ class TopList extends Component {
             <div name="slide">
                 <MusicList 
                     bgImage={bgImage}
-                    title={topList.title}
+                    title={topList.ListName}
                     songs={songs}
                     rank={this.rank}
                 >
