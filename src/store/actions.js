@@ -39,7 +39,7 @@ const receiveDisc = (disc) => {
 
 const receiveTopList = (topList) => {
     return {
-        type: types.TOP_LIST,
+        type: types.SET_TOP_LIST,
         topList
     }
 }
