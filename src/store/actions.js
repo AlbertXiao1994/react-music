@@ -72,7 +72,7 @@ const receivePlayList = (playList) => {
 
 const receiveSequenceList = (sequenceList) => {
     return {
-        type: types.SEQUENCE_LIST,
+        type: types.SET_SEQUENCE_LIST,
         sequenceList
     }
 }
@@ -179,7 +179,7 @@ function findIndex(list, song) {
         dispatch(receivePlayList(list))
     }
     dispatch(receivePlayState(true))
-    dispatch(receiveFullScreen(false))
+    dispatch(receiveFullScreen(true))
     dispatch(receiveCurrentIndex(index))
  }
 
