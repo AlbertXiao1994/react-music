@@ -59,3 +59,9 @@ export const getPlayMode = (state) => {
 export const getCurrentIndex = (state) => {
     return fromPlayer.getCurrentIndex(state.player)
 }
+
+export const getCurrentSong = (state) => {
+    let currentIndex = getCurrentIndex(state)
+    let playList = getPlayList(state)
+    return playList[currentIndex] || {}
+}
