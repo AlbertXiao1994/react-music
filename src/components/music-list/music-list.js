@@ -6,11 +6,14 @@ import Loading from 'base/loading/loading';
 import { prefixStyle } from 'common/js/dom';
 import { is, fromJS } from 'immutable';
 import './music-list.less';
+import { connect } from 'react-redux';
+import { selectPlay, randomPlay } from '@/store/actions';
+import { getPlayList } from '@/store/reducers';
 
 const RESERVED_HEIGHT = 40;
 const transform = prefixStyle('transform');
 
-export default class MusicList extends Component {
+class MusicList extends Component {
     state = {
         scrollY: 0,
         scrollStyle: {},
@@ -77,13 +80,15 @@ export default class MusicList extends Component {
         this.context.router.history.goBack()
     }
     randomPlayAll = () => {
-
+        this.props.randomPlay({
+            list: this._filterSongs(this.props.songs)
+          })
     }
-    onSelect(song, index) {
-        // this.selectPlay({
-        //   list: this._filterSongs(this.songs),
-        //   index
-        // })
+    onSelect = (song, index) => {
+        this.props.selectPlay({
+          list: this._filterSongs(this.props.songs),
+          index
+        })
     }
     _filterSongs = (list) => {
         let ret = []
@@ -153,3 +158,14 @@ MusicList.defaultProps = {
     songs: [],
     rank: false
 }
+
+const mapStateToProps = (state) => ({
+    playList: getPlayList(state)
+})
+
+const mapDispatchToProps =  {
+    selectPlay,
+    randomPlay
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicList)
