@@ -10,13 +10,10 @@ import PropTypes from 'prop-types';
 
 class SingerDetail extends Component {
     state = {
-        bgImage: '',
-        title: '',
         songs: []
     }
-    componentWillMount() {
+    componentDidMount() {
         this._getSingerDetail()
-        this.setState({bgImage: this.props.singer.avatar_m})
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
@@ -46,8 +43,8 @@ class SingerDetail extends Component {
         return (
             <div>
                 <MusicList
-                    bgImage={this.state.bgImage}
-                    title={this.state.title}
+                    bgImage={this.props.singer.avatar_m}
+                    title={this.props.singer.name}
                     songs={this.state.songs}>
                 </MusicList>
             </div>
