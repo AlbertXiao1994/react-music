@@ -6,8 +6,10 @@ import { is, fromJS } from 'immutable';
 import './rank.less';
 import { Route } from 'react-router-dom';
 import TopList from 'components/top-list/top-list';
+import { connect } from 'react-redux';
+import { setTopList } from '@/store/actions';
 
-export default class RouterConfig extends Component {
+class Rank extends Component {
     state = {
         topList: []
     };
@@ -16,7 +18,7 @@ export default class RouterConfig extends Component {
     }
     selectItem = (item) => {
         this.props.history.push(`/rank/${item.topID}`)
-        // this.props.setTopList(item)
+        this.props.setTopList(item)
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
@@ -79,3 +81,11 @@ export default class RouterConfig extends Component {
         );
     }
 }
+
+const mapStateToProps = () => ({})
+
+const mapDispatchToProps =  {
+  setTopList
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rank)
