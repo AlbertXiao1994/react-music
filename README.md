@@ -87,10 +87,10 @@ Create-React-App据说是为了优雅，将webpack配置相关的文件封装进
 |   |  |── action-types.js # Action类型汇总
 |   |──containers # 容器组件
 |   |──store # Redux配置
-|  |── reducers # Redux的Reducer文件夹
-|  |  |── a.js # 子Reducer
-|  |  |── b.js # 子Reducer
-|  |  |── index.js # 合成所有子Reducer
+|   |── reducers # Redux的Reducer文件夹
+|   |  |── a.js # 子Reducer
+|   |  |── b.js # 子Reducer
+|   |  |── index.js # 合成所有子Reducer
 |   |──App.js # 根组件
 |   |──index.js # 入口文件，根组件挂载，创建store
 |   |──registerServiceWorker.js
