@@ -9,6 +9,7 @@ import './music-list.less';
 import { connect } from 'react-redux';
 import { selectPlay, randomPlay } from '@/store/actions';
 import { getPlayList } from '@/store/reducers';
+import { CSSTransition } from 'react-transition-group';
 
 const RESERVED_HEIGHT = 40;
 const transform = prefixStyle('transform');
@@ -17,7 +18,8 @@ class MusicList extends Component {
     state = {
         scrollY: 0,
         scrollStyle: {},
-        bgStyle: {}
+        bgStyle: {},
+        show: false
     };
     static contextTypes = {
         router: PropTypes.object.isRequired
@@ -34,7 +36,10 @@ class MusicList extends Component {
     componentDidMount() {
         this.imageHeight = this.bgImage.clientHeight
         this.maxTranslateY = -this.imageHeight + RESERVED_HEIGHT
-        this.setState({scrollStyle: {top:`${this.imageHeight}px`}})
+        this.setState({
+            scrollStyle: {top:`${this.imageHeight}px`},
+            show: true
+        })
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.bgImage !== this.props.bgImage) {
@@ -76,6 +81,7 @@ class MusicList extends Component {
         this.bgImage.style.zIndex = `${zIndex}`
     }
     back = () => {
+        this.setState({show: false})
         // 从context获取history
         this.context.router.history.goBack()
     }
@@ -100,47 +106,49 @@ class MusicList extends Component {
     }
     render() {
         return (
-            <div className="music-list">
-                <div className="back" onClick={this.back}>
-                    <i className="icon-back"></i>
-                </div>
-                <h1 className="title">{this.props.title}</h1>
-                <div className="bg-image" style={this.state.bgStyle} ref={bgImage => this.bgImage = bgImage}>
-                    <div className="filter"></div>
-                    <div className="play-wrapper">
-                    {
-                        this.props.songs.length>0
-                        ? <div 
-                            ref={playBtn => this.playBtn=playBtn}
-                            className="play"
-                            onClick={this.randomPlayAll}
-                          >
-                            <i className="icon-play"></i>
-                            <span className="text">随机播放全部</span>
+            <CSSTransition classNames="slide" timeout={500} in={this.state.show}>
+                <div className="music-list">
+                    <div className="back" onClick={this.back}>
+                        <i className="icon-back"></i>
+                    </div>
+                    <h1 className="title">{this.props.title}</h1>
+                    <div className="bg-image" style={this.state.bgStyle} ref={bgImage => this.bgImage = bgImage}>
+                        <div className="filter"></div>
+                        <div className="play-wrapper">
+                        {
+                            this.props.songs.length>0
+                            ? <div 
+                                ref={playBtn => this.playBtn=playBtn}
+                                className="play"
+                                onClick={this.randomPlayAll}
+                            >
+                                <i className="icon-play"></i>
+                                <span className="text">随机播放全部</span>
+                            </div>
+                            : ''
+                        }
                         </div>
-                        : ''
-                    }
+                    </div>
+                    <div className="bg-layer" ref={bgLayer => this.bgLayer = bgLayer}></div>
+                    <div >
+                        <Scroll 
+                            data={this.props.songs}
+                            className="list"
+                            probeType={this.probeType}
+                            listenScroll={this.listenScroll}
+                            scroll={this.handleScroll}
+                            style={this.state.scrollStyle}
+                        >
+                            <div className="song-list-wrapper">
+                                <SongList songs={this.props.songs} select={this.onSelect} rank={this.props.rank} />
+                            </div>
+                            <div className="loading-wrapper">
+                                <Loading />
+                            </div>
+                        </Scroll>
                     </div>
                 </div>
-                <div className="bg-layer" ref={bgLayer => this.bgLayer = bgLayer}></div>
-                <div >
-                    <Scroll 
-                        data={this.props.songs}
-                        className="list"
-                        probeType={this.probeType}
-                        listenScroll={this.listenScroll}
-                        scroll={this.handleScroll}
-                        style={this.state.scrollStyle}
-                    >
-                        <div className="song-list-wrapper">
-                            <SongList songs={this.props.songs} select={this.onSelect} rank={this.props.rank} />
-                        </div>
-                        <div className="loading-wrapper">
-                            <Loading />
-                        </div>
-                    </Scroll>
-                </div>
-            </div>
+            </CSSTransition>
         );
     }
 }
