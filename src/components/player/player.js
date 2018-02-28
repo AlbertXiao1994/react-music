@@ -9,7 +9,7 @@ import ProgressCircle from 'base/progress-circle/progress-circle';
 import ProgressBar from 'base/progress-bar/progress-bar';
 import Lyric from 'lyric-parser';
 import PlayList from 'components/playlist/playlist';
-import { playMode } from 'common/js/config';
+import { playMode as PlayMode } from 'common/js/config';
 import './player.less';
 import { connect } from 'react-redux';
 import { getFullScreen, getPlayState, getCurrentIndex } from '@/store/reducers';
@@ -18,6 +18,8 @@ import { getSequenceList, getFavoriteList } from '@/store/reducers';
 import { setFullScreen, savePlayHistory, setPlayMode} from '@/store/actions';
 import { setPlayList, setCurrentIndex, setPlayState } from '@/store/actions';
 import { saveFavoriteList, deleteFavoriteList } from '@/store/actions';
+import { shuffle } from 'common/js/util';
+import Song from 'common/js/song';
 
 const transform = prefixStyle('transform');
 const transitionDuration = prefixStyle('transformDuration');
@@ -36,8 +38,52 @@ class Player extends Component {
     componentWillMount() {
         this.radius = 32
         this.touch = {}
+        this.lyricLine = []
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentSong !== this.props.currentSong) {
+            let newSong = nextProps.currentSong
+            let oldSong = this.props.currentSong
+            if (!newSong.mid) {
+                return
+              }
+              if (newSong.id === oldSong.id) {
+                return
+              }
+              this.getSongURL(newSong)
+        }
+
+        if (nextProps.playState !== this.props.playState) {
+            let audio = this.audio
+            if (this.state.songUrl !== '') {
+                if (this.props.playState) {
+                    audio.play()
+                } else {
+                    audio.pause()
+                }
+            }
+        }
     }
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.songUrl !== this.state.songUrl) {
+            let newVal = nextState.songUrl;
+            if (newVal !== '') {
+                if (this.state.currentLyric) {
+                  this.state.currentLyric.stop()
+                  this.setState({
+                    currentTime: 0,
+                    playingLyric: '',
+                    currentLineNum: 0 
+                  })
+                }
+                clearTimeout(this.timer)
+                this.timer = setTimeout(() => {
+                  this.audio.play()
+                  this.lyricLine = []
+                  this.getLyric()
+                }, 1000)
+              }
+        }
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     enter = (el, done) => {
@@ -126,7 +172,7 @@ class Player extends Component {
         this.setState({readyFlag: true})
     }
     end = () => {
-        if (this.props.playMode === playMode.loop) {
+        if (this.props.playMode === PlayMode.loop) {
           this.loop()
         } else {
           this.next()
@@ -195,11 +241,12 @@ class Player extends Component {
             currentLineNum: 0,
             playingLyric: ''
           })
+          this.lyricLine = []
         })
     }
     handleLyric = ({lineNum, txt}) => {
         if (lineNum > 5) {
-          let lineEl = this.$refs.lyricLine[lineNum - 5]
+          let lineEl = this.lyricLine[lineNum - 5]
           this.lyricList.scrollToElement(lineEl, 1000)
         } else {
           this.lyricList.scrollTo(0, 0, 1000)
@@ -263,9 +310,34 @@ class Player extends Component {
           return 'icon icon-not-favorite';
         }
     }
+    toggleFavorite = (song) => {
+        if (this.isFavorite(song)) {
+          this.props.deleteFavoriteList(song)
+        } else {
+          this.props.saveFavoriteList(new Song(song))
+        }
+    }
     openPlayList = (e) => {
         e.stopPropagation();
         this.playList.show()
+    }
+    toggleMode = () => {
+        let mode = (this.props.mode + 1) % 3
+        this.props.setPlayMode(mode)
+        let list = null
+        if (mode === PlayMode.random) {
+          list = shuffle(this.props.sequenceList)
+        } else {
+          list = this.props.sequenceList
+        }
+        this.resetCurrentIndex(list)
+        this.props.setPlayList(list)
+    }
+    resetCurrentIndex = (list) => {
+        let index = list.findIndex((item) => {
+          return this.props.currentSong.id === item.id
+        })
+        this.props.setCurrentIndex(index)
     }
     _pad = (num, n = 2) => {
         let len = num.toString().length
@@ -291,9 +363,9 @@ class Player extends Component {
         };
     }
     render() {
-        const { playList, fullScreen, currentSong, playState } = this.props;
-        const { playingLyric, currentLyric, percent, modeIcon } = this.state;
-        const { readyFlag, playIcon, songUrl, currentLineNum } = this.state;
+        const { playList, fullScreen, currentSong, playState, playMode } = this.props;
+        const { playingLyric, currentLyric, percent } = this.state;
+        const { readyFlag, songUrl, currentLineNum } = this.state;
         const { currentTime, currentShow, scrollStyle } = this.state;
         return (
             <div>
@@ -338,13 +410,15 @@ class Player extends Component {
                                         <div className="lyric-wrapper">
                                         {
                                             currentLyric
-                                            ? <div v-if="currentLyric">
+                                            ? <div>
                                               {
-                                                  currentLyric.lines.map((line,index) =>
+                                                  currentLyric.lines.map((line, index) =>
                                                     <p
                                                         className={currentLineNum===index?"text current":"text"} 
-                                                        ref={lyricLine=>this.lyricLine=lyricLine}
-                                                        dangerouslySetInnerHTML={line.txt}>
+                                                        ref={lyricLine=>this.lyricLine.push(lyricLine)}
+                                                        dangerouslySetInnerHTML={{__html:`${line.txt}`}}
+                                                        key={index}
+                                                    >
                                                     </p>
                                                   )
                                               }
@@ -368,13 +442,13 @@ class Player extends Component {
                                     </div>
                                     <div className="operators">
                                         <div className="icon i-left" onClick={this.toggleMode}>
-                                            <i className={modeIcon}></i>
+                                            <i className={playMode === PlayMode.sequence ? 'icon-sequence' : playMode === PlayMode.random ? 'icon-random' : 'icon-loop'}></i>
                                         </div>
                                         <div className={readyFlag?"icon i-left":"icon i-left disable"}>
                                             <i className="icon-prev" onClick={this.prev}></i>
                                         </div>
                                         <div className={readyFlag?"icon i-center":"icon i-center disable"}>
-                                            <i className={playIcon} onClick={this.togglePlay}></i>
+                                            <i className={playState ? 'icon-pause' : 'icon-play'} onClick={this.togglePlay}></i>
                                         </div>
                                         <div className={readyFlag?"icon i-right":"icon i-right disable"}>
                                             <i className="icon-next" onClick={this.next}></i>
