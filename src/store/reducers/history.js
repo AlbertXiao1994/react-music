@@ -23,10 +23,10 @@ export const searchHistory = (state = initialState.searchHistory, action) => {
 export const playHistory = (state = initialState.playHistory, action) => {
     switch(action.type) {
         case types.SET_PLAY_HISTORY:
-            return {
+            return [
                 ...state,
                 ...action.playHistory
-            };
+            ];
         default: 
             return state;
     }
@@ -35,10 +35,10 @@ export const playHistory = (state = initialState.playHistory, action) => {
 export const favoriteList = (state = initialState.favoriteList, action) => {
     switch(action.type) {
         case types.SET_FAVORITE_LIST:
-            return {
+            return [
                 ...state,
                 ...action.favoriteList
-            };
+            ];
         default: 
             return state;
     }
