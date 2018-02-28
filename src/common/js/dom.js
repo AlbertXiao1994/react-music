@@ -26,7 +26,7 @@
   
   let vendor = (() => {
     let transformNames = {
-      webkit: 'webkitTransform',
+      Webkit: 'WebkitTransform',
       Moz: 'MozTransform',
       O: 'OTransform',
       ms: 'msTransform',
