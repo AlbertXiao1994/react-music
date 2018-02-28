@@ -1,13 +1,13 @@
 ## 技术栈
 
-框架：React 16
-脚手架：Create-React-App
-路由：React Router 4
-数据管理：Redux 3
-数据请求：axios、jsonp
-优化：immutable.js、fastclick、[AsyncComponent](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html)实现按需加载
-动画：[React Transition Group](https://reactcommunity.org/react-transition-group/)
-语言：ES6
+框架：React 16<br>
+脚手架：Create-React-App<br>
+路由：React Router 4<br>
+数据管理：Redux 3<br>
+数据请求：axios、jsonp<br>
+优化：immutable.js、fastclick、[AsyncComponent](https://serverless-stack.com/chapters/code-splitting-in-create-react-app.html)实现按需加载<br>
+动画：[React Transition Group](https://reactcommunity.org/react-transition-group/)<br>
+语言：ES6<br>
 预处理：Less
 
 ## 效果
