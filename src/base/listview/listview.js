@@ -23,15 +23,14 @@ export default class ListView extends Component {
         this.probeType = 3
     }
     componentDidMount() {
-        // if (this.listGroup.children.length) {
-        //     let arr = this.props.data.map((group) => group.title.substr(0, 1));
-        //     this.setState({shortcutList: arr})
-        //     setTimeout(() => {
-        //         this._calListHeight()
-        //         this.handleFixTitleChange(this.state.currentIndex)
-        //         this.listview.refresh()
-        //     }, 20)
-        // }
+        if (this.props.data.length > 0) {
+            let arr = this.props.data.map((group) => group.title.substr(0, 1));
+            this.setState({shortcutList: arr})
+            setTimeout(() => {
+                this._calListHeight()
+                this.handleFixTitleChange(this.state.currentIndex)
+            }, 20)
+        }
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
@@ -137,6 +136,7 @@ export default class ListView extends Component {
         const list = this.listGroup
         let height = 0
         this.listHeight.push(height)
+        console.log(list)
         for (let i = 0; i < list.length; i++) {
             height += list[i].clientHeight
             this.listHeight.push(height)
@@ -160,7 +160,7 @@ export default class ListView extends Component {
                             <li
                                 key={index}
                                 className="list-group"
-                                ref={(listGroup) => {this.listGroup.push(listGroup)}}
+                                ref={(listGroup) => {this.listGroup[index]=listGroup}}
                             >
                                 <h2 className="list-group-title">{group.title}</h2>
                                 <ul>
