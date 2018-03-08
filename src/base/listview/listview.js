@@ -115,7 +115,17 @@ export default class ListView extends Component {
     refresh = () => {
         this.listview.refresh()
     }
-    selectItem = (item) => {
+    selectItem = (e) => {
+        let target = e.target
+        while (target.tagName !== 'LI') {
+            target = target.parentNode
+        }
+
+        let index = target.getAttribute('data-index')
+        let id = target.getAttribute('data-id')
+        let group = this.props.data[index]
+        let item = group.items[id]
+        
         this.props.select(item)
     }
     _scrollTo = (index) => {
@@ -162,13 +172,15 @@ export default class ListView extends Component {
                                 ref={(listGroup) => {this.listGroup[index]=listGroup}}
                             >
                                 <h2 className="list-group-title">{group.title}</h2>
-                                <ul>
+                                <ul onClick={this.selectItem}>
                                     {
                                         group.items.map((item, id) =>
                                             <li
                                                 className="list-group-item"
                                                 key={id}
-                                                onClick={()=>this.selectItem(item)}
+                                                data-index={index}
+                                                data-id={id}
+                                                data-item={item}
                                             >
                                                 <img className="avatar" src={item.avatar_s} alt="" />
                                                 <span className="name" dangerouslySetInnerHTML={this.createMarkup(item)}></span>
