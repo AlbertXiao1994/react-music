@@ -36,6 +36,26 @@ export default class Slider extends Component {
     componentWillUnMount() {
         clearTimeout(this.timer)
     }
+    componentDidMount() {
+        if (this.props.children.length > 0) {
+            setTimeout(() => {
+                this._setSliderWidth()
+                this._initDots()
+                this._initSlider()
+  
+                if (this.props.autoPlay) {
+                this._play()
+                }
+            }, 20)
+            window.addEventListener('resize', () => {
+                if (!this.BSlider) {
+                  return
+                }
+                this._setSliderWidth(true)
+                this.BSlider.refresh()
+            })
+        }
+    }
     _setSliderWidth = (isResize) => {
         this.children = this.sliderGroup.children
         
