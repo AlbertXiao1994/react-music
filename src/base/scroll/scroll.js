@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BScroll from 'better-scroll';
 import { is, fromJS } from 'immutable';
+import { debounce } from 'common/js/util';
 
 export default class Scroll extends Component {
     componentDidMount() {
@@ -39,9 +40,9 @@ export default class Scroll extends Component {
 
         if (this.props.listenScroll) {
             let _this = this
-            this.scroll.on('scroll', (pos) => {
-              _this.props.scroll(pos)
-            })
+            this.scroll.on('scroll', debounce((pos) => {
+                _this.props.scroll(pos)
+            }, 50))
         }
 
         if (this.props.pullup) {
