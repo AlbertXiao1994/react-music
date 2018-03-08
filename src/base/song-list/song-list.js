@@ -7,7 +7,15 @@ export default class SongList extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
-    selectItem = (song, index) => {
+    selectItem = (e) => {
+        let target = e.target
+        while (target.tagName !== 'LI') {
+            target = target.parentNode
+        }
+
+        let index = target.getAttribute('data-index')
+        let song = target.getAttribute('data-song')
+
         if (song.payplay === 1) {
           return;
         }
@@ -30,10 +38,10 @@ export default class SongList extends Component {
     render() {
         return (
             <div className="song-list">
-                <ul>
+                <ul onClick={this.selectItem}>
                     {
                         this.props.songs.map((song, index) =>
-                        <li className="item" onClick={()=>this.selectItem(song,index)} key={index}>
+                        <li className="item" data-index={index} data-song={song} key={index}>
                             {
                                 this.props.rank
                                 ? <div className="rank">
