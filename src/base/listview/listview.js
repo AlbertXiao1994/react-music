@@ -136,7 +136,6 @@ export default class ListView extends Component {
         const list = this.listGroup
         let height = 0
         this.listHeight.push(height)
-        console.log(list)
         for (let i = 0; i < list.length; i++) {
             height += list[i].clientHeight
             this.listHeight.push(height)
