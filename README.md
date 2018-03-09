@@ -212,7 +212,7 @@ Vue有Vuex，React对应着Redux。不过，Redux比Vuex使用起来复杂得多
 ```javascript
 export const SET_DATA='SET_DATA'
 ```
-**3、设置mutation：一个mutation改变一个state里的数据，仅赋值**
+**3、设置mutation：一个mutation改变一个state里的数据，仅赋值**<br>
 **4、设置action：每个action可包含复杂逻辑、异步请求，通过commit提交mutation一个或多个请求**
 
 Redux就复杂多了，又是中间件、又是react-redux，不过我经过多天的爬坑也可提炼个基本套路：
