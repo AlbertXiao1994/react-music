@@ -207,7 +207,7 @@ Vue有Vuex，React对应着Redux。不过，Redux比Vuex使用起来复杂得多
 
 四句话就能说请Vuex的用法：
 
-**1、设置state对象：里面包含所有需要全局管理的数据**
+**1、设置state对象：里面包含所有需要全局管理的数据**<br>
 **2、设置mutation-types：一个数据对应一个类型，如：**
 ```javascript
 export const SET_DATA='SET_DATA'
