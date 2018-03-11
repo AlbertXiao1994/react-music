@@ -11,7 +11,7 @@ const TITLE_HEIGHT = 30;
 export default class ListView extends Component {
     state = {
         currentIndex: 0,
-        scrollY: -1,
+        // scrollY: -1,
         diff: -1,
         shortcutList: [],
         fixedTitle: ''
@@ -21,6 +21,7 @@ export default class ListView extends Component {
         this.touch = {}
         this.listenScroll = true
         this.probeType = 3
+        this.scrollY = -1
     }
     componentDidMount() {
         if (this.props.data.length > 0) {
@@ -79,8 +80,9 @@ export default class ListView extends Component {
         if (this.scrollToFlag ) {
             return;
         }
-        this.setState({scrollY: pos.y})
-        let { scrollY } = this.state;
+        // this.setState({scrollY: pos.y})
+        this.scrollY = pos.y
+        let  scrollY  = this.scrollY;
         if (scrollY > 0) {
             this.setState({currentIndex: 0})
             return;
@@ -193,7 +195,7 @@ export default class ListView extends Component {
                     }
                 </ul>
                 {
-                    this.state.scrollY < 0
+                    this.scrollY < 0
                     ? (
                         <div className="list-fixed" ref={topFixed => this.topFixed = topFixed}>
                             <div className="fixed-title">{this.state.fixedTitle}</div>
