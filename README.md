@@ -207,12 +207,12 @@ Vue有Vuex，React对应着Redux。不过，Redux比Vuex使用起来复杂得多
 
 四句话就能说请Vuex的用法：
 
-**1、设置state对象：里面包含所有需要全局管理的数据**
+**1、设置state对象：里面包含所有需要全局管理的数据**<br>
 **2、设置mutation-types：一个数据对应一个类型，如：**
 ```javascript
 export const SET_DATA='SET_DATA'
 ```
-**3、设置mutation：一个mutation改变一个state里的数据，仅赋值**
+**3、设置mutation：一个mutation改变一个state里的数据，仅赋值**<br>
 **4、设置action：每个action可包含复杂逻辑、异步请求，通过commit提交mutation一个或多个请求**
 
 Redux就复杂多了，又是中间件、又是react-redux，不过我经过多天的爬坑也可提炼个基本套路：
@@ -221,7 +221,7 @@ Redux就复杂多了，又是中间件、又是react-redux，不过我经过多�
 ```javascript
 export const SET_DATA='SET_DATA'
 ```
-**2、编写Actions.js：一个数据对应一个Action生成器，为每个Action编写一个函数派发它，最后编写派发多个action的函数**
-**3、编写Reducer文件夹：index.js，负责合成子Reducer，并提供state里所有数据的接口；若干个子Reducer，为接受每个Action更新state里的对应数据**
-**4、设置store：传入将合成后的Reducer、中间件**
+**2、编写Actions.js：一个数据对应一个Action生成器，为每个Action编写一个函数派发它，最后编写派发多个action的函数**<br>
+**3、编写Reducer文件夹：index.js，负责合成子Reducer，并提供state里所有数据的接口；若干个子Reducer，为接受每个Action更新state里的对应数据**<br>
+**4、设置store：传入将合成后的Reducer、中间件**<br>
 **5、拆分组件：将需要使用全局数据的组件用一个空组件包裹，将Redux的数据接口提供给mapStateToProps，actions提供给mapDispatchToProps，通过connect将外层组件变为容器组件，给内层组件传入属性、方法**
