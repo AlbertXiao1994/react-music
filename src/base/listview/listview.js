@@ -12,7 +12,7 @@ export default class ListView extends Component {
     state = {
         currentIndex: 0,
         // scrollY: -1,
-        diff: -1,
+        // diff: -1,
         shortcutList: [],
         fixedTitle: ''
     };
