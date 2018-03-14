@@ -11,8 +11,6 @@ const TITLE_HEIGHT = 30;
 export default class ListView extends Component {
     state = {
         currentIndex: 0,
-        // scrollY: -1,
-        // diff: -1,
         shortcutList: [],
         fixedTitle: ''
     };
@@ -80,15 +78,14 @@ export default class ListView extends Component {
         if (this.scrollToFlag ) {
             return;
         }
-        // this.setState({scrollY: pos.y})
         this.scrollY = pos.y
         let  scrollY  = this.scrollY;
         if (scrollY > 0) {
             this.setState({currentIndex: 0})
             return;
-          }
-          // 当在中部
-          for (let i = 0; i < this.listHeight.length - 2; i++) {
+        }
+        // 当在中部
+        for (let i = 0; i < this.listHeight.length - 2; i++) {
             let height1 = this.listHeight[i]
             let height2 = this.listHeight[i + 1]
             if (-scrollY >= height1 && -scrollY < height2) {
@@ -97,10 +94,10 @@ export default class ListView extends Component {
               this.handleDiffChange(diff)
               return;
             }
-          }
-          // 当在底部
-          this.setState({currentIndex: this.listHeight.length - 2})
-          this.handleFixTitleChange(this.state.currentIndex)
+        }
+        // 当在底部
+        this.setState({currentIndex: this.listHeight.length - 2})
+        this.handleFixTitleChange(this.state.currentIndex)
     }
     handleDiffChange = (newVal) => {
         let offset = (newVal < TITLE_HEIGHT && newVal > 0) ? TITLE_HEIGHT - newVal : 0
@@ -163,9 +160,7 @@ export default class ListView extends Component {
                 listenScroll={this.listenScroll}
                 ref={listview => this.listview = listview}
             >
-                <ul
-                    // ref={listGroup=>this.listGroup=listGroup}
-                >
+                <ul>
                     {
                         this.props.data.map((group, index) => 
                             <li
