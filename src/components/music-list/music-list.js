@@ -102,12 +102,14 @@ class MusicList extends Component {
     back = () => {
         this.setState({show: false})
         // 从context获取history
-        this.context.router.history.goBack()
+        setTimeout(() => {
+            this.context.router.history.goBack()
+        }, 500)
     }
     randomPlayAll = () => {
         this.props.randomPlay({
             list: this._filterSongs(this.props.songs)
-          })
+        })
     }
     onSelect = (song, index) => {
         this.props.selectPlay({
