@@ -4,7 +4,7 @@ import SongList from 'base/song-list/song-list';
 import Scroll from 'base/scroll/scroll';
 import Loading from 'base/loading/loading';
 import { prefixStyle } from 'common/js/dom';
-import { is, fromJS } from 'immutable';
+import { is } from 'immutable';
 import './music-list.less';
 import { connect } from 'react-redux';
 import { selectPlay, randomPlay } from '@/store/actions';
@@ -50,8 +50,27 @@ class MusicList extends Component {
             })
         }
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    shouldComponentUpdate(nextProps = {}, nextState = {}) {
+        const thisProps = this.props || {}, thisState = this.state || {};
+
+        if (Object.keys(thisProps).length !== Object.keys(nextProps) ||
+            Object.keys(thisState).length !== Object.keys(nextState)) {
+                return true;
+        }
+
+        for (const key in nextProps) {
+            if (!is(nextProps[key], thisProps[key])) {
+                return true;
+            }
+        }
+
+        for (const key in nextState) {
+            if (!is(nextState[key], thisState[key])) {
+                return true;
+            }
+        }
+
+        return false;
     }
     handleScroll = (pos) => {
         this.setState({scrollY: pos.y})
