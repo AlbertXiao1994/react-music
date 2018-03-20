@@ -41,13 +41,11 @@ class SingerDetail extends Component {
     }
     render() {
         return (
-            <div>
-                <MusicList
-                    bgImage={this.props.singer.avatar_m}
-                    title={this.props.singer.name}
-                    songs={this.state.songs}>
-                </MusicList>
-            </div>
+            <MusicList
+                bgImage={this.props.singer.avatar_m}
+                title={this.props.singer.name}
+                songs={this.state.songs}>
+            </MusicList>
         );
     }
 }
