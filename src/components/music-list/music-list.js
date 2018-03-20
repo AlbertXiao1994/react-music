@@ -151,23 +151,21 @@ class MusicList extends Component {
                         </div>
                     </div>
                     <div className="bg-layer" ref={bgLayer => this.bgLayer = bgLayer}></div>
-                    <div >
-                        <Scroll 
-                            data={this.props.songs}
-                            className="list"
-                            probeType={this.probeType}
-                            listenScroll={this.listenScroll}
-                            scroll={this.handleScroll}
-                            style={this.state.scrollStyle}
-                        >
-                            <div className="song-list-wrapper">
-                                <SongList songs={this.props.songs} select={this.onSelect} rank={this.props.rank} />
-                            </div>
-                            <div className="loading-wrapper">
-                                <Loading />
-                            </div>
-                        </Scroll>
-                    </div>
+                    <Scroll 
+                        data={this.props.songs}
+                        className="list"
+                        probeType={this.probeType}
+                        listenScroll={this.listenScroll}
+                        scroll={this.handleScroll}
+                        style={this.state.scrollStyle}
+                    >
+                        <div className="song-list-wrapper">
+                            <SongList songs={this.props.songs} select={this.onSelect} rank={this.props.rank} />
+                        </div>
+                        <div className="loading-wrapper">
+                            <Loading />
+                        </div>
+                    </Scroll>
                 </div>
             </CSSTransition>
         );
