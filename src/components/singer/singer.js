@@ -86,7 +86,7 @@ class SingerComp extends Component {
                 <Route
                     exact
                     path={this.props.match.url}
-                    render={() => 
+                    render={() =>
                         <ListView
                             data={this.state.singers}
                             ref={list => this.list = list}
