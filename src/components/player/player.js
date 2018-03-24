@@ -126,7 +126,7 @@ class Player extends Component {
         this.cdWrapper.style.transition = ''
         this.cdWrapper.style[transform] = ''
     }
-    next = () => {
+    next = (e) => {
         if (!this.state.readyFlag) {
           return;
         }
@@ -139,7 +139,7 @@ class Player extends Component {
             index = 0
           }
           if (!this.props.playState) {
-            this.togglePlay()
+            this.togglePlay(e)
           }
           this.props.setCurrentIndex(index)
         }
@@ -171,7 +171,7 @@ class Player extends Component {
     error = () => {
         this.setState({readyFlag: true})
     }
-    end = () => {
+    end = (e) => {
         if (this.props.playMode === PlayMode.loop) {
           this.loop()
         } else {
@@ -217,11 +217,11 @@ class Player extends Component {
         let seconds = this._pad(time % 60)
         return `${minutes}:${seconds}`;
     }
-    onchangePercent = (percent) => {
+    onchangePercent = (e, percent) => {
         let currentTime = this.props.currentSong.duration * percent
         this.audio.currentTime = currentTime
         if (!this.props.playState) {
-          this.togglePlay()
+          this.togglePlay(e)
         }
         this.state.currentLyric.seek(currentTime * 1000)
     }
@@ -387,7 +387,7 @@ class Player extends Component {
                                     <h2 className="subtitle" dangerouslySetInnerHTML={{__html:`${currentSong.singer}`}}></h2>
                                 </div>
                                 <div className="middle"
-                                    onTouchStart={this.middleTouchStart}
+                                    onTouchStart={(e)=>{this.middleTouchStart(e)}}
                                     onTouchMove={this.middleTouchMove}
                                     onTouchEnd={this.middleTouchEnd}
                                 >
@@ -436,7 +436,7 @@ class Player extends Component {
                                     <div className="progress-wrapper">
                                         <span className="time time-l">{this.formatTime(currentTime)}</span>
                                         <div className="progress-bar-wrapper">
-                                            <ProgressBar percent={percent} changePercent={this.onchangePercent}></ProgressBar>
+                                            <ProgressBar percent={percent} changePercent={(e)=>{this.onchangePercent(e, percent)}}></ProgressBar>
                                         </div>
                                         <span className="time time-r">{this.formatTime(currentSong.duration)}</span>
                                     </div>
@@ -448,10 +448,10 @@ class Player extends Component {
                                             <i className="icon-prev" onClick={this.prev}></i>
                                         </div>
                                         <div className={readyFlag?"icon i-center":"icon i-center disable"}>
-                                            <i className={playState ? 'icon-pause' : 'icon-play'} onClick={this.togglePlay}></i>
+                                            <i className={playState ? 'icon-pause' : 'icon-play'} onClick={(e) => {this.togglePlay(e)}}></i>
                                         </div>
                                         <div className={readyFlag?"icon i-right":"icon i-right disable"}>
-                                            <i className="icon-next" onClick={this.next}></i>
+                                            <i className="icon-next" onClick={(e)=>{this.next(e)}}></i>
                                         </div>
                                         <div className="icon i-right">
                                             <i className={this.getFavoriteIcon(currentSong)} onClick={()=>this.toggleFavorite(currentSong)}></i>
