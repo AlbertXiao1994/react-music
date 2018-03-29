@@ -12,6 +12,9 @@ const PLAY_MAX_LEN = 200;
 const FAVORITE_KEY = '__like__';
 const FAVORITE_MAX_LEN = 200;
 
+// 收藏列表
+const DATA_KEY = '__data__';
+
 function insertToStorage(arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {
@@ -93,4 +96,16 @@ export function deleteFavorite(song) {
   })
   storage.set(FAVORITE_KEY, favorites)
   return favorites
+}
+
+export function loadData() {
+  return storage.get(DATA_KEY, [])
+}
+
+export function saveData(data) {
+  storage.set(DATA_KEY, data)
+}
+
+export function deleteData() {
+  storage.remove(DATA_KEY)
 }
