@@ -90,16 +90,20 @@ export default class ListView extends Component {
             let height1 = this.listHeight[i]
             let height2 = this.listHeight[i + 1]
             if (-scrollY >= height1 && -scrollY < height2) {
-              this.setState({currentIndex: i})
-              this.setState({pulldown: false})
+              this.setState({
+                currentIndex: i,
+                pulldown: false
+            })
               let diff = height2 + scrollY
               this.handleDiffChange(diff)
               return;
             }
         }
         // 当在底部
-        this.setState({currentIndex: this.listHeight.length - 2})
-        this.setState({pulldown: false})
+        this.setState({
+            currentIndex: this.listHeight.length - 2,
+            pulldown: false
+        })
         this.handleFixTitleChange(this.state.currentIndex)
     }
     handleDiffChange = (newVal) => {
