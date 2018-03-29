@@ -9,19 +9,25 @@ import SingerDetail from 'components/singer-detail/singer-detail';
 import { is, fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import { setSinger } from '@/store/actions';
+import { saveData, loadData, deleteData } from 'common/js/cache';
 
 const HOT_NAME = '热门';
 const HOT_LEN = 10;
 
 class SingerComp extends Component {
     state = {
-        singers: []
+        singers: loadData()
     };
     componentWillMount() {
-        this._getSingerList()
+        if (!this.state.singers.length) {
+            this._getSingerList()
+        }
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+    }
+    componentWillUnmount() {
+        deleteData()
     }
     selectSinger = (singer) => {
         this.props.history.push(`/singer/${singer.id}`)
@@ -31,6 +37,7 @@ class SingerComp extends Component {
         getSingerList().then((res) => {
             if (res.code === ERR_OK) {
                 this.setState({singers: this._normalizeSinger(res.data.list)})
+                saveData(this.state.singers)
             }
         }, (err) => {
             console.log(err)
