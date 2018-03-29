@@ -12,7 +12,8 @@ export default class ListView extends Component {
     state = {
         currentIndex: 0,
         shortcutList: [],
-        fixedTitle: ''
+        fixedTitle: '',
+        pulldown: false
     };
     componentWillMount() {
         this.listGroup = []
@@ -81,7 +82,7 @@ export default class ListView extends Component {
         this.scrollY = pos.y
         let  scrollY  = this.scrollY;
         if (scrollY > 0) {
-            this.setState({currentIndex: 0})
+            this.setState({pulldown: true})
             return;
         }
         // 当在中部
@@ -90,6 +91,7 @@ export default class ListView extends Component {
             let height2 = this.listHeight[i + 1]
             if (-scrollY >= height1 && -scrollY < height2) {
               this.setState({currentIndex: i})
+              this.setState({pulldown: false})
               let diff = height2 + scrollY
               this.handleDiffChange(diff)
               return;
@@ -97,6 +99,7 @@ export default class ListView extends Component {
         }
         // 当在底部
         this.setState({currentIndex: this.listHeight.length - 2})
+        this.setState({pulldown: false})
         this.handleFixTitleChange(this.state.currentIndex)
     }
     handleDiffChange = (newVal) => {
@@ -151,6 +154,11 @@ export default class ListView extends Component {
         }
     }
     render() {
+        const fixedTitle = this.scrollY < 0
+        ? (
+            <div className="fixed-title">{this.state.fixedTitle}</div>
+        )
+        : '';
         return (
             <Scroll
                 className="listview"
@@ -189,15 +197,9 @@ export default class ListView extends Component {
                         )
                     }
                 </ul>
-                {
-                    this.scrollY < 0
-                    ? (
-                        <div className="list-fixed" ref={topFixed => this.topFixed = topFixed}>
-                            <div className="fixed-title">{this.state.fixedTitle}</div>
-                        </div>
-                      )
-                    : ''
-                }
+                    <div className="list-fixed" ref={topFixed => this.topFixed = topFixed}>
+                        {fixedTitle}
+                    </div>
                 <div
                     className="list-shortcut"
                     onTouchStart={this.shortcutToggle}
