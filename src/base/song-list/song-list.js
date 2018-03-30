@@ -5,7 +5,7 @@ import './song-list.less';
 
 export default class SongList extends Component {
     shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+        return !is(fromJS(this.props), fromJS(nextProps));
     }
     selectItem = (song, index) => {
         if (song.payplay === 1) {
