@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { is, fromJS } from 'immutable';
+import React, { PureComponent } from 'react';
 import './add-song.less';
 import Scroll from 'base/scroll/scroll';
 import Suggest from 'components/suggest/suggest';
@@ -10,7 +9,7 @@ import Switches from 'base/switches/switches';
 import TopTip from 'base/top-tip/top-tip';
 import Song from 'common/js/song';
 
-export default class AddSong extends Component {
+export default class AddSong extends PureComponent {
     state = {
         query: '',
         showFlag: false,
@@ -22,9 +21,6 @@ export default class AddSong extends Component {
             {name: '播放历史'},
             {name: '搜索历史'}
           ]
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     show() {
         this.showFlag = true
