@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { is, fromJS } from 'immutable';
 import './progress-bar.less';
 import {prefixStyle} from 'common/js/dom';
 import PropTypes from 'prop-types';
@@ -10,9 +9,6 @@ const BTN_WIDTH = 16;
 export default class Progressbar extends Component {
     componentWillMount() {
         this.touch = {}
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     progressTourchStart = (e) => {
         e.preventDefault();
