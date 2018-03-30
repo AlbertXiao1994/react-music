@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
-import { is, fromJS } from 'immutable';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-export default class TopTip extends Component {
+export default class TopTip extends PureComponent {
     state = {
         showFlag: false
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     show = () => {
         this.setState({showFlag: true})
