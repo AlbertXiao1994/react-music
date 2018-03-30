@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 export default class SearchList extends Component {
     shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
+        return !is(fromJS(this.props), fromJS(nextProps));
     }
     selectItem = (item) => {
         this.props.select(item)
