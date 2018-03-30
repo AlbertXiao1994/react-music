@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
-import { is, fromJS } from 'immutable';
+import React, { PureComponent } from 'react';
 import './confirm.less';
 import PropTypes from 'prop-types';
 
-export default class Confirm extends Component {
+export default class Confirm extends PureComponent {
     state = {
         confirmShow: false 
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
     show = () => {
         this.setState({confirmShow: true})
