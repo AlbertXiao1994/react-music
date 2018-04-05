@@ -1,7 +1,7 @@
 import * as types from '../action-types';
 import { loadSearchHistory, loadPlayHistory, loadFavorite } from 'common/js/cache';
-// import { combineReducers } from 'redux';
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux-immutable';
 
 const initialState = {
     searchHistory: loadSearchHistory(),
